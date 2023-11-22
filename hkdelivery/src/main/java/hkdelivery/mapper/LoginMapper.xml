@@ -5,13 +5,31 @@
 <mapper namespace="hkdelivery.mapper.LoginMapper">
 
 <select id="selectIdCheck" parameterType="string" resultType="string">
-select member_id from members 
+select member_id 
+from members 
 where member_id = #{memberId} 
 union 
-select shop_id from shop 
+select shop_id 
+from shop 
 where shop_id = #{memberId}
+</select>
+
+
+<select id="loginSelect" parameterType="string" resultType="authInfo">
+<!-- 회원 점포를 동시에 찾기 위해 union 사용-->
+<!-- 회원과 점포를 구별하기 위해 grade 를 사용-->
+select member_id id, member_pw password, 'mem' grade 
+from members 
+where member_id = #{id} 
+union
+select shop_id shopId, shop_pw shopPw, 'shop' 
+from shop 
+where shop_id = #{id}
+
+
 
 </select>
+
 
 
 </mapper>

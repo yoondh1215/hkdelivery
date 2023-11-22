@@ -19,7 +19,7 @@ public class MemberCommand {
 	String memberNum;
 	@NotEmpty(message = "아이디를 입력해 주세요")
 	String memberId;
-	//비밀번호는 패턴을 사용해야 한다. 영문, 특수문자, 숫자의 6글자 이상으로 설정하겠다.
+	//비밀번호는 패턴을 사용해 영문, 특수문자, 숫자의 6글자 이상으로 설정하겠다.
 	@Pattern (regexp = "^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#!@$%^&*-+?~]).{6,}$",
 			message = "영문, 특수문자, 숫자를 포함한 6글자 이상만 가능합니다")
 	String memberPw;

@@ -9,18 +9,20 @@ application property 에서 마이바티스 앨리어스 설정으로 도메인�
 
 
 <insert id="memberInsert" parameterType="member">
-insert into members (member_num, member_id, member_pw, member_name, 
-member_addr, member_addr_detail, member_post, member_regi_date, 
-member_gender, member_phone, member_email, member_birth) 
+insert into members 
+	(member_num, member_id, member_pw, member_name, 
+	member_addr, member_addr_detail, member_post, member_regi_date, 
+	member_gender, member_phone, member_email, member_birth) 
 values 
-(#{memberNum}, #{memberId}, #{memberPw}, #{memberName},
-#{memberAddr}, #{memberAddrDetail}, ${memberPost}, now(),
-#{memberGender}, #{memberPhone}, #{memberEmail}, #{memberBirth})
+	(#{memberNum}, #{memberId}, #{memberPw}, #{memberName},
+	#{memberAddr}, #{memberAddrDetail}, ${memberPost}, now(),
+	#{memberGender}, #{memberPhone}, #{memberEmail}, #{memberBirth})
 </insert>
 
-
+<!-- 놀랍게도 postgresql 에는 nvl 함수가 없다. 따라서 coalesce를 사용한다.-->
 <select id="memberAutoNum" resultType="string">
-select concat('mem',coalesce(max(substring(member_num,4)::integer),100000) +1) 
+select 
+	concat('mem',coalesce(max(substring(member_num,4)::integer),100000) +1) 
 from members
 </select>
 

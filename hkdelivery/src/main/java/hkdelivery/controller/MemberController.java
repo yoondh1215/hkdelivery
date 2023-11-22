@@ -20,7 +20,7 @@ public class MemberController {
 	@Autowired
 	MemberAutoNumService memberAutoNumService;
 	@GetMapping("memberRegist")
-	public String memberList(Model model) {
+	public String memberRegi(Model model) {
 		//회원번호 자동생성기
 		memberAutoNumService.execute(model);
 		return "thymeleaf/member/memberForm";
