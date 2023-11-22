@@ -22,5 +22,11 @@ from shop
 </select>
 
 
+<select id="getShopNum" parameterType="string" resultType="string">
+select shop_num shopNum 
+from shop 
+where shop_id = #{id}
+</select>
+
 </mapper>
 

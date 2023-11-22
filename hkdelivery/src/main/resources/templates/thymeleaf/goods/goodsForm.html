@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+</head>
+<body>
+<!-- 오류메시지를 가져오려면 command가 필요. -->
+<!-- 오류 메시지는 span으로 출력 -->
+<!-- 만약 오류가 발생해 현재 페이지로 돌아왔어도 이전 값이 안 날아가게 command에 저장해놓고 받아온다. -->
+<form action="goodsSubmit" method="post" id="frm" th:object="${goodsCommand}">
+	<table border="1" width="600" align="center">
+		<tr>
+			<th width="100">상품번호</th>
+			<td><input type="text" name="goodsNum" readonly="readonly" th:value="${goodsCommand.goodsNum}"/></td>
+		</tr>
+		<tr>
+			<th width="100">상품명</th>
+			<td><input type="text" name="goodsName" th:value="${goodsCommand.goodsName}"/><br/>
+			<span style="color:red" th:if="${#fields.hasErrors('goodsName')}" th:errors="*{goodsName}"></span></td>
+		</tr>
+		<tr>
+			<!-- 상품가격은 넘버로 주고 최솟값을 0으로 설정 -->
+			<th width="100">상품가격</th>
+			<td><input type="number" name="goodsPrice" min="0" th:value="${goodsCommand.goodsPrice}"/><br/> 
+			<span style="color:red" th:if="${#fields.hasErrors('goodsPrice')}" th:errors="*{goodsPrice}"></span></td>
+		</tr>
+		<tr>
+			<th width="100">배송비</th>
+			<td><input type="number" name="deliveryCost" min="0" th:value="${goodsCommand.deliveryCost}"/><br/>
+				<span style="color:red" th:if="${#fields.hasErrors('deliveryCost')}" th:errors="*{deliveryCost}"></span></td>
+		</tr>
+		<tr>
+			<th width="100">상품설명</th>
+			<td><textarea rows="10" cols="50" name="goodsContent">[[${goodsCommand.goodsContent}]]</textarea> <br/>
+			<span style="color:red" th:if="${#fields.hasErrors('goodsContent')}" th:errors="*{goodsContent}"></span></td>
+		</tr>
+		<tr>
+			<th colspan="2"><input type="submit" value="상품등록"/>  </th>
+		</tr>
+	</table>
+
+
+</form>
+
+</body>
+</html>

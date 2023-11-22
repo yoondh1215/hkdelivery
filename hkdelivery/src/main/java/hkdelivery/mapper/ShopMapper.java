@@ -9,4 +9,6 @@ public interface ShopMapper {
 
 	public void shopInsert(ShopCommand shopCommand);
 	public String shopAutoNum ();
+	public String getShopNum(String id);
+	
 }

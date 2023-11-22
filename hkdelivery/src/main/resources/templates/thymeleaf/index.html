@@ -5,16 +5,37 @@
 <title>Insert title here</title>
 </head>
 <body>
-index 입니다.
-로그인창.
-회원가입.
-점포가입.
+
 
 <!-- 로그인 되었을 때와 로그인 안됐을 때를 session.auth, <div> 로 구분. -->
 <!-- 로그인 상태시 -->
 <div th:if="${session.auth != null}">
 로그인 성공!
+	<!-- 회원과 점포의 메뉴를 th:block과 th:if 조건으로 나눈다. 세션 auth의 grade를 이용한다. -->
+	<th:block th:if="${session.auth.grade == 'mem'}">
+	<ul>
+		<li><a href="member/memberUpdate">내 정보 수정</a></li>
+		<li>쇼핑 보러가기</li> -> 구현할 것
+		장바구니
+		위시리스트
+	</ul>
 	
+	</th:block>
+
+	<th:block th:if="${session.auth.grade == 'shop'}">
+	<ul>
+		<li><a href="contract/contractCreate">가맹계약 신청</a></li>
+		<li><a href="contract/contractRead">가맹계약서 확인</a></li>
+		<li><a href="goods/goodsRegist">상품 등록</a></li>
+		<li><a href="goods/goodsList">판매중인 상품 확인</a></li>
+		<li><a href="goods/goodsUpdate">상품 수정</a></li>
+	</ul>
+	
+	</th:block>
+
+	
+
+<!-- 링크를 login/logout으로 준 이유는 login 컨트롤러 재활용을 위해서... -->
 <a href="login/logout">로그아웃</a>
 
 
@@ -35,7 +56,7 @@ index 입니다.
 			<td rowspan="2"><input type="submit" value="로그인"/></td>
 		</tr>
 		<tr>
-			<td><input type="text" name="password" placeholder="비밀번호" th:value="${loginCommand.password}"/>
+			<td><input type="password" name="password" placeholder="비밀번호" th:value="${loginCommand.password}"/>
 			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
 		</tr>
 		<tr>

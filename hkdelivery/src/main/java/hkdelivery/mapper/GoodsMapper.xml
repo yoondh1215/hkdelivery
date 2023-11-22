@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="hkdelivery.mapper.GoodsMapper">
+
+<select id="goodsAutoNum" resultType="string">
+select 
+concat ('good', coalesce(max(substring(shop_num,5)::integer),100000) + 1) 
+from goods 
+</select>
+
+<insert id="goodsInsert" parameterType="goods">
+insert into goods 
+	(goods_num, shop_num, goods_name, goods_content, 
+	goods_main, goods_main_org, goods_image, goods_image_org, 
+	goods_price, delivery_cost) 
+values 
+	(#{goodsNum}, #{shopNum}, #{goodsName}, #{goodsContent}, 
+	'1', '1', '1', '1', 
+	#{goodsPrice}, #{deliveryCost})
+</insert>
+
+</mapper>
