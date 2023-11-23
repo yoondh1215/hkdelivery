@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import hkdelivery.command.GoodsCommand;
 import hkdelivery.service.goods.GoodsAutoNumService;
+import hkdelivery.service.goods.GoodsShopListService;
 import hkdelivery.service.goods.GoodsWriteService;
 import jakarta.servlet.http.HttpSession;
 
@@ -36,4 +37,14 @@ public class GoodsController {
 		goodsWriteService.execute(goodsCommand, session);
 		return "thymeleaf/goods/goodsList"; 
 	}
+	
+	@Autowired
+	GoodsShopListService goodsShopListService;
+	@GetMapping("goodsList")
+	public String goodsList(Model model, HttpSession session) {
+		goodsShopListService.execute(model, session);
+		return "thymeleaf/goods/goodsList";
+	}
+	
+	
 }

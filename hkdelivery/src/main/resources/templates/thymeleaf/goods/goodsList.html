@@ -7,5 +7,18 @@
 <body>
 goodsList
 
+<table border="1" width="600" align="center">
+<tr>
+	<td>번호</td><td>상품명</td><td>상품설명</td>
+	<td>상품가격</td><td>배송비</td>
+</tr>
+<tr th:each="list, cnt : ${goodsList}">
+	<td>[[${cnt.count}]]</td>
+	<td>[[${list.goodsName}]]</td>
+	<td>[[${list.goodsContent}]]</td>
+	<td>[[${list.goodsPrice}]]</td>
+	<td>[[${list.deliveryCost}]]</td> <br/>
+</tr>
+</table>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package hkdelivery.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import hkdelivery.domain.GoodsDTO;
@@ -8,5 +10,8 @@ import hkdelivery.domain.GoodsDTO;
 public interface GoodsMapper {
 
 	public String goodsAutoNum();
-	public void goodsInsert(GoodsDTO dto); //성공여부를 int로 확인
+	public void goodsInsert(GoodsDTO dto); 
+	public List<GoodsDTO> shopGoodsAllSelect(String shopNum);
+	
+
 }

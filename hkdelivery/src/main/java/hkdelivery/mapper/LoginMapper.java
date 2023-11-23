@@ -8,6 +8,6 @@ import hkdelivery.domain.AuthInfoDTO;
 public interface LoginMapper {
 
 	public String selectIdCheck (String memberId);
-	public AuthInfoDTO loginSelect(String id);
+	public AuthInfoDTO loginSelect(String shopNum);
 	
 }
