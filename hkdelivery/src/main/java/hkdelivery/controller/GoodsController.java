@@ -36,6 +36,15 @@ public class GoodsController {
 		if (result.hasErrors()) {
 			return "thymeleaf/goods/goodsForm";
 		}
+		
+		//메인이미지는 필수이므로 파일선택을 안 한 경우 경고 메시지
+		//오류메시지는 string인데 파일은 파일객체라 문자열 인식 못해서 command에 오류메시지 설정 불가.
+		
+		if (goodsCommand.getGoodsMain().isEmpty()) {
+			result.rejectValue("goodsMain", "goodsCommand.goodsMain", "대문이미지를 선택해주세요");
+			return "thymeleaf/goods/goodsForm"; //오류메시지를 보내기 위해 현재 페이지를 열어 줌
+		}
+		
 		goodsWriteService.execute(goodsCommand, session);
 		return "redirect:goodsList";
 	}

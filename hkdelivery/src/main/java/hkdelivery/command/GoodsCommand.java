@@ -1,6 +1,8 @@
 package hkdelivery.command;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,14 +15,18 @@ public class GoodsCommand {
 	String goodsName;
 	@NotEmpty(message = "상품 설명을 입력하세요")
 	String goodsContent;
-	String goodsMain;
-	String goodsMainOrg;
-	String goodsImage;
-	String goodsImageOrg;
 	@NotNull(message = "가격을 입력하세요")
 	Integer goodsPrice;
 	@NotNull(message = "배송비를 입력하세요")
 	Integer deliveryCost;
+	
+	//이미지 파일은 multipartfile로 받음
+	MultipartFile goodsMain;
+	String goodsMainOrg;
+	MultipartFile goodsImage[];
+	String goodsImageOrg;
+	
+	
 	
 	public String getGoodsNum() {
 		return goodsNum;
@@ -46,10 +52,10 @@ public class GoodsCommand {
 	public void setGoodsContent(String goodsContent) {
 		this.goodsContent = goodsContent;
 	}
-	public String getGoodsMain() {
+	public MultipartFile getGoodsMain() {
 		return goodsMain;
 	}
-	public void setGoodsMain(String goodsMain) {
+	public void setGoodsMain(MultipartFile goodsMain) {
 		this.goodsMain = goodsMain;
 	}
 	public String getGoodsMainOrg() {
@@ -58,10 +64,10 @@ public class GoodsCommand {
 	public void setGoodsMainOrg(String goodsMainOrg) {
 		this.goodsMainOrg = goodsMainOrg;
 	}
-	public String getGoodsImage() {
+	public MultipartFile[] getGoodsImage() {
 		return goodsImage;
 	}
-	public void setGoodsImage(String goodsImage) {
+	public void setGoodsImage(MultipartFile[] goodsImage) {
 		this.goodsImage = goodsImage;
 	}
 	public String getGoodsImageOrg() {
@@ -82,7 +88,6 @@ public class GoodsCommand {
 	public void setDeliveryCost(Integer deliveryCost) {
 		this.deliveryCost = deliveryCost;
 	}
-	
 	
 	
 	

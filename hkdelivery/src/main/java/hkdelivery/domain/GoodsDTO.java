@@ -9,12 +9,16 @@ public class GoodsDTO {
 	String shopNum;
 	String goodsName;
 	String goodsContent;
+	Integer goodsPrice;
+	Integer deliveryCost;
+	
+	//이미지 파일 전송용
 	String goodsMain;
 	String goodsMainOrg;
 	String goodsImage;
 	String goodsImageOrg;
-	Integer goodsPrice;
-	Integer deliveryCost;
+	
+	
 	
 	public String getGoodsNum() {
 		return goodsNum;

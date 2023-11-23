@@ -9,7 +9,8 @@
 <!-- 오류메시지를 가져오려면 command가 필요. -->
 <!-- 오류 메시지는 span으로 출력 -->
 <!-- 만약 오류가 발생해 현재 페이지로 돌아왔어도 이전 값이 안 날아가게 command에 저장해놓고 받아온다. -->
-<form action="goodsSubmit" method="post" id="frm" th:object="${goodsCommand}">
+<!-- 파일을 전송하려면 form에 enctype="multipart/form-data" 로 지정해 주어야 한다. -->
+<form action="goodsSubmit" method="post" th:object="${goodsCommand}" enctype="multipart/form-data">
 	<table border="1" width="600" align="center">
 		<tr>
 			<th width="100">상품번호</th>
@@ -35,6 +36,18 @@
 			<th width="100">상품설명</th>
 			<td><textarea rows="10" cols="50" name="goodsContent">[[${goodsCommand.goodsContent}]]</textarea> <br/>
 			<span style="color:red" th:if="${#fields.hasErrors('goodsContent')}" th:errors="*{goodsContent}"></span></td>
+		</tr>
+		<!-- 이하로 상품설명 이미지도 넣을 수 있는 코드 -->
+		<tr>
+			<th>대문이미지</th>
+			<td><input type="file" name="goodsMain"> 
+				<!-- rejectValue의 오류메시지를 출력하기 위한 span -->
+			 	<span style="color:red" th:if="${#fields.hasErrors('goodsMain')}" th:errors="*{goodsMain}"></span>
+			</td>
+		</tr>
+		<tr>
+			<th>이미지</th>	<!-- multiple은 파일 선택시 ctrl 키를 눌러 여러 개를 선택할 수 있게 해준다. -->
+			<td><input type="file" name="goodsImage" multiple="multiple"></td>
 		</tr>
 		<tr>
 			<th colspan="2"><input type="submit" value="상품등록"/>  </th>
