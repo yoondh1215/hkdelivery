@@ -29,8 +29,16 @@ $(function(){
 		} else {
 			$("#checkBoxAll").prop("checked", false);
 		}
-		
 	});
+	//선택삭제 버튼 클릭시 체크박스에 치크된 모든 항목 삭제
+	//우선 한 개 이상을 선택해야 하는 조건 부여
+	$("#frm").submit(function(){
+		if ($("input:checkbox[name=checkBox]:checked").length <1) {
+			alert("삭제할 메뉴를 하나 이상 선택하세요.");
+			return false;
+		}
+	});
+	
 });
 
 
@@ -44,23 +52,22 @@ goodsList
 <!-- checkBoxs 클릭시 모든 체크박스가 선택/해제 -->
 
 <table border="1" width="600" align="center">
-
-<tr>
-	<td>번호</td><td>상품명</td><td>상품설명</td>
-	<td>상품가격</td><td>배송비</td>
-	<td><input type="checkbox" id="checkBoxAll"/></td>
-	<td><input type="submit" value="선택삭제"/></td>
-</tr>
-
-<tr th:each="list, cnt : ${goodsList}">
-	<td>[[${cnt.count}]]</td>
-	<td>[[${list.goodsName}]]</td>
-	<td>[[${list.goodsContent}]]</td>
-	<td>[[${list.goodsPrice}]]</td>
-	<td>[[${list.deliveryCost}]]</td>
-	<td><input type="checkbox" name="checkBox"/></td> 
-</tr>
-
+<form action="goodsDelete" method="post" id="frm">
+	<tr>
+		<td>번호</td><td>상품명</td><td>상품설명</td>
+		<td>상품가격</td><td>배송비</td>
+		<td><input type="checkbox" id="checkBoxAll"/>
+			<input type="submit" value="선택삭제"/></td>
+	</tr>	
+	<tr th:each="list, cnt : ${goodsList}">
+		<td>[[${cnt.count}]]</td>
+		<td>[[${list.goodsName}]]</td>
+		<td>[[${list.goodsContent}]]</td>
+		<td>[[${list.goodsPrice}]]</td>
+		<td>[[${list.deliveryCost}]]</td>
+		<td><input type="checkbox" name="checkBox" th:value="${list.goodsNum}"/></td> 
+	</tr>
+</form>
 </table>
 </body>
 </html>

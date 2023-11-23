@@ -31,7 +31,15 @@ select
 	goods_image_org goodsImageOrg, goods_price goodsPrice, delivery_cost deliveryCost  
 from goods g, shop s 
 where s.shop_num = #{shopNum}
-
 </select>
+
+<!-- 배열을 풀어주려면 foreach separator 를 사용한다.-->
+<delete id="goodsDelete" parameterType="string">
+delete from goods 
+where goods_num in <foreach collection="checkBox" item="goodsNum" open="(" close=")" index="index" 
+					separator="," >
+ 						#{goodsNum}
+					</foreach>
+</delete>
 
 </mapper>
