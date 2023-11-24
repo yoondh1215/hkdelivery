@@ -22,18 +22,6 @@
 		<img th:src="|/static/upload/${goodsImage}|" /><br />
 		</th:block>
 	</td></tr>
-
-<!-- 
-	<tr><th colspan="2">
-		<th:block th:if="${session.auth.grade == 'shop'}">
-			<a th:href="@{goodsUpdate(goodsNum=${goodsInfo.goodsNum })}">상품 수정</a> | 
-			<a th:href="@{'goodsDelete/'+${goodsInfo.goodsNum }}">상품 삭제</a> | 
-			<a href="goodsList">상품목록</a> |
-		</th:block> 
-		<a href="javascript:history.back();">뒤로가기</a>		
-		</th>
-	</tr>
--->
 </table>
 
 

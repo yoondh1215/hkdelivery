@@ -1,94 +1,173 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>HK 배달몰</title>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+</style>
 </head>
-<body>
+<body class="w3-light-grey w3-content" style="max-width:1600px">
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+	<div class="w3-container">
+	    <a href="#" onclick="w3_close()" class="w3-hide-large w3-right w3-jumbo w3-padding w3-hover-grey" title="close menu">
+	      <i class="fa fa-remove"></i>
+	    </a>
+   
+		<!-- 비로그인 상태시 -->
+		<div th:if="${session.auth == null}">
+		<!-- 오류가 있는 경우 LoginCommand가 가진 값을 받아오기 위해 th:object 사용한다 (사용자가 또 치지 말라고. 사용자경험에 중요)-->
+		<!-- 단, th:object 사용시 처음 시작할 땐 LoginCommand가 없으므로 파싱 에러가 발생. 그러므로 loginCommand를 메인 컨트롤러에 추가해주기 -->
+		<!-- 오류가 있는 경우 bindingResult result에 정의된 메시지를 span th:if를 줘서 가져온다. -->
+		<form action="/login/login" method="post" th:object="${loginCommand}">
+			<table border="1" align="center">
+				<tr>
+					<td><input type="text" name="id" placeholder="아이디" th:value="${loginCommand.id}"/>
+						<span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span></td>
+					<td rowspan="2"><input type="submit" value="로그인"/></td>
+				</tr>
+				<tr>
+					<td><input type="password" name="password" placeholder="비밀번호" th:value="${loginCommand.password}"/>
+					<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
+				</tr>
+				<tr>
+					<td colspan="2"><a href="member/memberRegist"/>회원 가입</a> || <a href="shop/shopRegist"/>점포 등록</a>
+					</td>
+				</tr>
+			</table>
+		</form>
+		</div>
+		
+		
+		<!-- 로그인 되었을 때와 로그인 안됐을 때를 session.auth, <div> 로 구분. -->
+		<!-- 로그인 상태시 -->
+		<div th:if="${session.auth != null}">
+		로그인 성공!
+			<!-- 회원과 점포의 메뉴를 th:block과 th:if 조건으로 나눈다. 세션 auth의 grade를 이용한다. -->
+			<th:block th:if="${session.auth.grade == 'mem'}">
+			<ul>
+				<li><a href="member/memberUpdate">내 정보 수정</a></li>
+				<li>쇼핑 보러가기</li> -> 구현할 것
+				장바구니
+				위시리스트
+			</ul>
+			</th:block>
+		
+			<th:block th:if="${session.auth.grade == 'shop'}">
+			<ul>
+				<li><a href="contract/contractCreate">가맹계약 신청</a></li>
+				<li><a href="contract/contractRead">가맹계약서 확인</a></li>
+				<li><a href="goods/goodsRegist">상품 등록</a></li>
+				<li><a href="goods/goodsList">판매중인 상품 확인 및 수정</a></li>
+			</ul>
+			</th:block>
+		<!-- 링크를 login/logout으로 준 이유는 login 컨트롤러 재활용을 위해서... -->
+		<a href="login/logout">로그아웃</a>
+		<h4><b>반갑습니다!</b></h4>
+		</div>
+	</div>
+</nav>
 
 
-<!-- 로그인 되었을 때와 로그인 안됐을 때를 session.auth, <div> 로 구분. -->
-<!-- 로그인 상태시 -->
-<div th:if="${session.auth != null}">
-로그인 성공!
-	<!-- 회원과 점포의 메뉴를 th:block과 th:if 조건으로 나눈다. 세션 auth의 grade를 이용한다. -->
-	<th:block th:if="${session.auth.grade == 'mem'}">
-	<ul>
-		<li><a href="member/memberUpdate">내 정보 수정</a></li>
-		<li>쇼핑 보러가기</li> -> 구현할 것
-		장바구니
-		위시리스트
-	</ul>
-	
-	</th:block>
-
-	<th:block th:if="${session.auth.grade == 'shop'}">
-	<ul>
-		<li><a href="contract/contractCreate">가맹계약 신청</a></li>
-		<li><a href="contract/contractRead">가맹계약서 확인</a></li>
-		<li><a href="goods/goodsRegist">상품 등록</a></li>
-		<li><a href="goods/goodsList">판매중인 상품 확인 및 수정</a></li>
-	</ul>
-	
-	</th:block>
-
-	
-
-<!-- 링크를 login/logout으로 준 이유는 login 컨트롤러 재활용을 위해서... -->
-<a href="login/logout">로그아웃</a>
+<a href="CSStemplate">템플릿 검사용 임시 링크</a>
 
 
-</div>
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
-<!-- 비로그인 상태시 -->
-<div th:if="${session.auth == null}">
 
-<!-- 오류가 있는 경우 LoginCommand가 가진 값을 받아오기 위해 th:object 사용한다 (사용자가 또 치지 말라고. 사용자경험에 중요)-->
-<!-- 단, th:object 사용시 처음 시작할 땐 LoginCommand가 없으므로 파싱 에러가 발생. 그러므로 loginCommand를 메인 컨트롤러에 추가해주기 -->
-<!-- 오류가 있는 경우 bindingResult result에 정의된 메시지를 span th:if를 줘서 가져온다. -->
 
-<form action="/login/login" method="post" th:object="${loginCommand}">
-	<table border="1">
-		<tr>
-			<td><input type="text" name="id" placeholder="아이디" th:value="${loginCommand.id}"/>
-				<span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span></td>
-			<td rowspan="2"><input type="submit" value="로그인"/></td>
-		</tr>
-		<tr>
-			<td><input type="password" name="password" placeholder="비밀번호" th:value="${loginCommand.password}"/>
-			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span></td>
-		</tr>
-		<tr>
-			<td colspan="2"><a href="member/memberRegist"/>회원 가입</a> || <a href="shop/shopRegist"/>점포 등록</a>
-			</td>
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px">
+
+  <!-- Header -->
+  <header id="portfolio">
+    <a href="#"><img src="/w3images/avatar_g2.jpg" style="width:65px;" class="w3-circle w3-right w3-margin w3-hide-large w3-hover-opacity"></a>
+    <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
+    <div class="w3-container">
+   	 <h1><b>맛있다! 실제 맛있다!</b></h1>
+    </div>
+  </header>
+  
+  <!--Photo Grid-->
+	<!-- MainGoodsListService에서 model 로 받아온 상품목록 출력 -->
+	<table align="center" width="600">
+		<tr>	
+			<!-- 상품정보를 옆으로 출력해야 하므로 <td>를 반복 -->
+			<!-- goodsList로 받아온 값을 하나씩 dto에 전달, index인 idx는 반복할때마다 0부터 1씩 증가. -->
+			<th:block th:each="dto, idx : ${goodsList}">
+				<td>
+					<a th:href="@{goods/goodsInfo(goodsNum=${dto.goodsNum})}"> <img th:src="|/static/upload/${dto.goodsMain}|"> </a> <br/>
+					상품명 : [[${dto.goodsName}]] <br/>
+					가격 : [[${dto.goodsPrice}]] <br/>
+					배송비 : 
+					<!-- 배송비가 0이면 무료배송으로 출력 -->
+					<span th:if="${dto.deliveryCost == 0}">무료배송</span>
+					<span th:if="${dto.deliveryCost != 0}">[[${dto.deliveryCost}]]</span>
+				</td>
+				<!-- 이러면 옆으로만 계속 출력되기에 3개마다 행을 변경해준다. -->
+				<th:block th:if="${idx.count % 3 == 0}" th:utext="'</tr><tr>'"/>
+			</th:block>	
 		</tr>
 	</table>
-</form>
+
+ <!-- Pagination -->
+  <div class="w3-center w3-padding-32">
+    <div class="w3-bar">
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">«</a>
+      <a href="#" class="w3-bar-item w3-black w3-button">1</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">2</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">3</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">4</a>
+      <a href="#" class="w3-bar-item w3-button w3-hover-black">»</a>
+    </div>
+  </div>
+
+
+  <div class="w3-container w3-padding-large" style="margin-bottom:32px">
+    <h4><b>우리 회사 HK 배달몰은</b></h4>
+    <p>HK 배달몰은 고객님의 만족감 있는 식사를 위해 수준높은 점포를 찾아 배달 서비스를 제공합니다.</p>
+    <hr>
+  </div>
+  
+  
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-32 w3-dark-grey">
+  <div class="w3-row-padding">
+    <div class="w3-third">
+      <h3>본사 정보</h3>
+      <p>본사 사업자 등록번호: XXX-XX-XXXXX</p>
+      <p>사업문의: 010-xxxx-xxxx.</p>
+      <p>주소 : 서울시 여의도 어딘가.</p>
+      <p>대표 : 흥국쨩</p>
+    </div>
+  </div>
+  </footer>
+  
+  <div class="w3-black w3-center w3-padding-24">해당 HTML 템플릿은 W3.CSS의 무료 템플릿을 사용함.<a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css 방문하기</a></div>
+
+<!-- End page content -->
 </div>
 
 
-<!-- MainGoodsListService에서 model 로 받아온 상품목록 출력 -->
-<table align="center" width="600">
-	<tr>	<!-- 상품정보를 옆으로 출력해야 하므로 <td>를 반복 -->
-	<!-- goodsList로 받아온 값을 하나씩 dto에 전달, index인 idx는 반복할때마다 0부터 1씩 증가. -->
-	<th:block th:each="dto, idx : ${goodsList}">
-		<td>
-			<a th:href="@{goods/goodsInfo(goodsNum=${dto.goodsNum})}"> <img th:src="|/static/upload/${dto.goodsMain}|"> </a> <br/>
-			상품명 : [[${dto.goodsName}]] <br/>
-			가격 : [[${dto.goodsPrice}]] <br/>
-			배송비 : 
-			<!-- 배송비가 0이면 무료배송으로 출력 -->
-			<span th:if="${dto.deliveryCost == 0}">무료배송</span>
-			<span th:if="${dto.deliveryCost != 0}">[[${dto.deliveryCost}]]</span>
-			
-		</td>
-		<!-- 이러면 옆으로만 계속 출력되기에 3개마다 행을 변경해준다. -->
-		<th:block th:if="${idx.count % 3 == 0}" th:utext="'</tr><tr>'">
-		</th:block>
-	</th:block>	
-	</tr>
-</table>
-
+<script>
+// Script to open and close sidebar
+function w3_open() {
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
+}
+ 
+function w3_close() {
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
+}
+</script>
 
 </body>
 </html>

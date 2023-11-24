@@ -19,7 +19,6 @@ public class GoodsInfoService {
 		
 		GoodsDTO goodsInfoDto = new GoodsDTO();
 		goodsInfoDto = goodsMapper.goodsInfoSelect(goodsNum);
-		System.out.println(goodsNum);
 		
 		model.addAttribute("goodsInfo", goodsInfoDto);
 		
