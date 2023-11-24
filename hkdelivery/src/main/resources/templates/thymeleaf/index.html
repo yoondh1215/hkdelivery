@@ -27,8 +27,7 @@
 		<li><a href="contract/contractCreate">가맹계약 신청</a></li>
 		<li><a href="contract/contractRead">가맹계약서 확인</a></li>
 		<li><a href="goods/goodsRegist">상품 등록</a></li>
-		<li><a href="goods/goodsList">판매중인 상품 확인</a></li>
-		<li><a href="goods/goodsUpdate">상품 수정</a></li>
+		<li><a href="goods/goodsList">판매중인 상품 확인 및 수정</a></li>
 	</ul>
 	
 	</th:block>
@@ -65,8 +64,30 @@
 		</tr>
 	</table>
 </form>
-
 </div>
+
+
+<!-- MainGoodsListService에서 model 로 받아온 상품목록 출력 -->
+<table align="center" width="600">
+	<tr>	<!-- 상품정보를 옆으로 출력해야 하므로 <td>를 반복 -->
+	<!-- goodsList로 받아온 값을 하나씩 dto에 전달, index인 idx는 반복할때마다 0부터 1씩 증가. -->
+	<th:block th:each="dto, idx : ${goodsList}">
+		<td>
+			<img th:src="|/static/upload/${dto.goodsMain}|"> <br/>
+			상품명 : [[${dto.goodsName}]] <br/>
+			가격 : [[${dto.goodsPrice}]] <br/>
+			배송비 : 
+			<!-- 배송비가 0이면 무료배송으로 출력 -->
+			<span th:if="${dto.deliveryCost == 0}">무료배송</span>
+			<span th:if="${dto.deliveryCost != 0}">[[${dto.deliveryCost}]]</span>
+			
+		</td>
+		<!-- 이러면 옆으로만 계속 출력되기에 3개마다 행을 변경해준다. -->
+		<th:block th:if="${idx.count % 3 == 0}" th:utext="'</tr><tr>'">
+		</th:block>
+	</th:block>	
+	</tr>
+</table>
 
 
 </body>

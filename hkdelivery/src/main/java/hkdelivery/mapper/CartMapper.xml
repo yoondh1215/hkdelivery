@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+	
+<mapper namespace="hkdelivery.mapper.CartMapper">
+
+<!-- resultMap 사용-->
+<resultMap id="goodsResultMap" type="goods">
+<!-- id는 pk칼럼, result는 일반칼럼-->
+<!-- column은 테이블의 컬럼명, jdbcType은 컬럼의 type, property는 컬럼에 해당하는 멤버필드-->
+	<id column="goods_num" jdbcType="VARCHAR" property="goodsNum"/>
+	<result column="shop_num" jdbcType="VARCHAR" property="shopNum"/>
+	<result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+	<result column="goods_content" jdbcType="VARCHAR" property="goodsContent"/>
+	<result column="goods_main" jdbcType="VARCHAR" property="goodsMain"/>
+	<result column="goods_main_org" jdbcType="VARCHAR" property="goodsMainOrg"/>
+	<result column="goods_image" jdbcType="VARCHAR" property="goodsImage"/>
+	<result column="goods_image_org" jdbcType="VARCHAR" property="goodsImageOrg"/>
+<!-- 컬럼 타입이 INTEGER 또는 NUMBER인 경우 BIGINT로 적어준다.-->	
+	<result column="goods_price" jdbcType="BIGINT" property="goodsPrice"/>
+	<result column="delivery_cost" jdbcType="BIGINT" property="deliveryCost"/>
+</resultMap>
+
+
+<!-- 메인페이지에 보여줄 상품리스트 가져오기-->
+<select id="goodsAllSelect" resultMap="goodsResultMap">
+select goods_num, shop_num, goods_name, goods_content, 
+	goods_main, goods_main_org, goods_image, 
+	goods_image_org, goods_price, delivery_cost 
+from goods
+</select>
+
+
+</mapper>
+
+
+
+
