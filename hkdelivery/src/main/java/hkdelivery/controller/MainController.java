@@ -23,8 +23,5 @@ public class MainController {
 		return "thymeleaf/index";
 	}
 	
-	@GetMapping("CSStemplate")
-	public String CSStemplate () {
-		return "thymeleaf/CSStemplate";
-	}
+
 }

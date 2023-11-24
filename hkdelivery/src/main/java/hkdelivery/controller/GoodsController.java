@@ -65,12 +65,23 @@ public class GoodsController {
 		return "redirect:goodsList";
 	}
 	
+	//shop이 상품상세를 보기 위한 기능
 	@Autowired
 	GoodsInfoService goodsInfoService;
 	@GetMapping("goodsInfo")
-	public String goodsInfo(@RequestParam("goodsNum") String goodsNum, Model model, HttpSession session) {
-		goodsInfoService.execute(goodsNum, model, session);
+	public String goodsInfo(@RequestParam("goodsNum") String goodsNum, Model model) {
+		goodsInfoService.execute(goodsNum, model);
 		return "thymeleaf/goods/goodsInfo";
 	}
+	
+	//member가 주문하기 위한 기능
+	@GetMapping("goodsOrder")
+	public String execute (@RequestParam("goodsNum") String goodsNum, Model model) {
+		goodsInfoService.execute(goodsNum, model);
+		
+		return "thymeleaf/goods/goodsOrder";
+	}
+	
+	
 	
 }

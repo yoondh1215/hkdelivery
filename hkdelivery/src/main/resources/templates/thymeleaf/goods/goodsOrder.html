@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<table align="center" width="800">
+	<tr><td rowspan="8">
+		<img th:src="|/static/upload/${goodsInfo.goodsMain}|" />
+	</td></tr>
+	
+	<tr><td>상품명 : [[${goodsInfo.goodsName }]]</td></tr>
+	<tr><td>가격 : [[${#numbers.formatCurrency(goodsInfo.goodsPrice) + '원' }]]</td></tr>
+	<tr><td>배송비 :  <span th:if="${goodsInfo.deliveryCost == 0}">무료배송</span>
+					<span th:if="${goodsInfo.deliveryCost != 0}">[[${#numbers.formatCurrency(goodsInfo.deliveryCost) + '원'}]]</span> </td></tr>
+	<tr><td>상품설명 : [[${goodsInfo.goodsContent}]]</td></tr>
+	<tr><td>수량 : <input type="number" min="1" value="1" id="qty" name="qty"/> </td></tr>
+	<tr><td>총 상품금액 : <span id="totalPrice"></span> </td></tr>
+	<tr><td><button type="button" id="cartBtn">장바구니</button> | 
+			<button type="button" id="wishBtn">위시리스트</button> 
+	<tr>
+		<!-- <span th:utext="${#strings.replace(goodsInfo.goodsContent,newLine,'&lt;br /&gt;')}"></span> -->
+	</tr>
+	<tr><td colspan="2">
+		<th:block th:each="goodsImage : ${#strings.arraySplit(goodsInfo.goodsImage,'-') }">
+		<img th:src="|/static/upload/${goodsImage}|" /><br />
+		</th:block>
+	</td></tr>
+</table>
+
+
+
+
+	
+	
+	
+	
+</body>
+</html>

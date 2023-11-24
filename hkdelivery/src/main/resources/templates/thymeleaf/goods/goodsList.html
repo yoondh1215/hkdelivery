@@ -59,7 +59,7 @@ goodsList
 	</tr>	
 	<tr th:each="list, cnt : ${goodsList}">
 		<td>[[${cnt.count}]]</td>
-		<td> <a th:href="@{goods/goodsInfo(goodsNum=${list.goodsNum})}">[[${list.goodsName}]]</a></td>
+		<td> <a th:href="@{goodsInfo(goodsNum=${list.goodsNum})}">[[${list.goodsName}]]</a></td>
 		<td>[[${list.goodsContent}]]</td>
 		<td>[[${list.goodsPrice}]]</td>
 		<td>[[${list.deliveryCost}]]</td>

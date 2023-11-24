@@ -14,14 +14,9 @@ public class GoodsInfoService {
 
 	@Autowired
 	GoodsMapper goodsMapper;
-	public void execute (String goodsNum, Model model, HttpSession session) {
-		AuthInfoDTO auth = (AuthInfoDTO)session.getAttribute("auth");
-		
+	public void execute (String goodsNum, Model model) {
 		GoodsDTO goodsInfoDto = new GoodsDTO();
 		goodsInfoDto = goodsMapper.goodsInfoSelect(goodsNum);
-		
 		model.addAttribute("goodsInfo", goodsInfoDto);
-		
-		model.addAttribute("auth", auth);
 	}
 }
