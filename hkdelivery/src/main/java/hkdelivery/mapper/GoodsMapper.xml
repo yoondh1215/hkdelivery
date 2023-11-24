@@ -46,4 +46,16 @@ where goods_num in <foreach collection="checkBox" item="goodsNum" open="(" close
 					</foreach>
 </delete>
 
+
+
+<select id="goodsInfoSelect" parameterType="string" resultType="goods">
+select 
+	goods_num goodsNum, shop_num shopNum, goods_name goodsName, goods_content goodsContent, 
+	goods_main goodsMain, goods_main_org goodsMainOrg, goods_image goodsImage, 
+	goods_image_org goodsImageOrg, goods_price goodsPrice, delivery_cost deliveryCost  
+from goods 
+where goods_num = #{goodsNum}
+</select>
+
+
 </mapper>

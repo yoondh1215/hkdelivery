@@ -73,7 +73,7 @@
 	<!-- goodsList로 받아온 값을 하나씩 dto에 전달, index인 idx는 반복할때마다 0부터 1씩 증가. -->
 	<th:block th:each="dto, idx : ${goodsList}">
 		<td>
-			<img th:src="|/static/upload/${dto.goodsMain}|"> <br/>
+			<a th:href="@{goods/goodsInfo(goodsNum=${dto.goodsNum})}"> <img th:src="|/static/upload/${dto.goodsMain}|"> </a> <br/>
 			상품명 : [[${dto.goodsName}]] <br/>
 			가격 : [[${dto.goodsPrice}]] <br/>
 			배송비 : 

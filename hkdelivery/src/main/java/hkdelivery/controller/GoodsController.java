@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import hkdelivery.command.GoodsCommand;
 import hkdelivery.service.goods.GoodsAutoNumService;
 import hkdelivery.service.goods.GoodsDeleteService;
+import hkdelivery.service.goods.GoodsInfoService;
 import hkdelivery.service.goods.GoodsShopListService;
 import hkdelivery.service.goods.GoodsWriteService;
 import jakarta.servlet.http.HttpSession;
@@ -44,9 +45,9 @@ public class GoodsController {
 			result.rejectValue("goodsMain", "goodsCommand.goodsMain", "대문이미지를 선택해주세요");
 			return "thymeleaf/goods/goodsForm"; //오류메시지를 보내기 위해 현재 페이지를 열어 줌
 		}
-		
 		goodsWriteService.execute(goodsCommand, session);
-		return "redirect:goodsList";
+		
+		return "thymeleaf/goods/goodsList";
 	}
 	
 	@Autowired
@@ -63,6 +64,14 @@ public class GoodsController {
 	public String goodsDelete (@RequestParam(value="checkBox") String checkBox[] ) {
 		goodsDeleteService.execute(checkBox);
 		return "redirect:goodsList";
+	}
+	
+	@Autowired
+	GoodsInfoService goodsInfoService;
+	@GetMapping("goodsInfo")
+	public String goodsInfo(@RequestParam("goodsNum") String goodsNum, Model model, HttpSession session) {
+		goodsInfoService.execute(goodsNum, model, session);
+		return "thymeleaf/goods/goodsInfo";
 	}
 	
 }
