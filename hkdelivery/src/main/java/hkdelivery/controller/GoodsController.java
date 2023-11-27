@@ -16,8 +16,11 @@ import hkdelivery.service.goods.GoodsAutoNumService;
 import hkdelivery.service.goods.GoodsDeleteService;
 import hkdelivery.service.goods.GoodsInfoService;
 import hkdelivery.service.goods.GoodsShopListService;
+import hkdelivery.service.goods.GoodsWishListService;
 import hkdelivery.service.goods.GoodsWishService;
 import hkdelivery.service.goods.GoodsWriteService;
+import hkdelivery.service.goods.WishDelService;
+import hkdelivery.service.goods.WishGoodsDelsService;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -80,10 +83,8 @@ public class GoodsController {
 	@GetMapping("goodsOrder")
 	public String execute (@RequestParam("goodsNum") String goodsNum, Model model, HttpSession session) {
 		goodsInfoService.execute(goodsNum, model, session);
-		
 		return "thymeleaf/goods/goodsOrder";
 	}
-	
 	
 	// goodsOrder 페이지에서 ajax로 위시리스트에 추가하라고 보냄
 	// /goods/goodsOrder?goodsNum=good100001 
@@ -93,9 +94,33 @@ public class GoodsController {
 	GoodsWishService goodsWishService;
 	@PostMapping("goodsWishAdd")
 	public @ResponseBody String goodsWishAdd (@RequestParam("goodsNum") String goodsNum, HttpSession session) {
-		
 		return goodsWishService.execute(goodsNum, session);
-		
+	}
+	
+	@Autowired
+	GoodsWishListService goodsWishListService;
+	//index 페이지서 wishList로.
+	@GetMapping("wishList")
+	public String wishList(HttpSession session, Model model) {
+		goodsWishListService.execute(session, model);
+		return "thymeleaf/goods/wishList";
+	}
+	
+	@Autowired
+	WishGoodsDelsService wishGoodsDelsService;
+	@PostMapping("goodsWishDels")
+	public String goodsWishDels(@RequestParam("wishGoodsDel") String wishGoodsDels[], 
+			HttpSession session) {
+		wishGoodsDelsService.execute(wishGoodsDels, session);
+		return "redirect:wishList";
+	}
+	
+	@Autowired
+	WishDelService wishDelService;
+	@GetMapping("wishDel")
+	public String wishDel (@RequestParam("goodsNum") String goodsNum, HttpSession session) {
+		wishDelService.execute(goodsNum, session);
+		return "redirect:wishList";
 	}
 	
 }
