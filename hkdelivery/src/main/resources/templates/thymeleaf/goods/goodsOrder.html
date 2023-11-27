@@ -34,7 +34,19 @@ $(function(){	//위시리스트 하트모양 클릭
 			});
 		}
 	});
-});
+	
+	$("#qty").click(function(){
+		//model로 전달된 goodsInfo에서 goodsPrice 받기, qty와 곱해 총 상품금액 만들기
+		const money = [[${goodsInfo.goodsPrice}]] * $("#qty").val();
+		//W 000,000,000 형식을 적용할 변수 생성
+		const moneyFormatter = new Intl.NumberFormat('ko-KR',{style:'currency',currency:'KRW'});
+		//money 를 monetFormatter형식에 적용
+		const formattedMoney = moneyFormatter.format(money);
+		//총 상품금액에 적용
+		$("#totalPrice").text(formattedMoney + '원');
+	});
+	
+}); 
 
 </script>
 
@@ -53,7 +65,7 @@ $(function(){	//위시리스트 하트모양 클릭
 					<span th:if="${goodsInfo.deliveryCost != 0}">[[${#numbers.formatCurrency(goodsInfo.deliveryCost) + '원'}]]</span> </td></tr>
 	<tr><td>상품설명 : [[${goodsInfo.goodsContent}]]</td></tr>
 	<tr><td>수량 : <input type="number" min="1" value="1" id="qty" name="qty"/> </td></tr>
-	<tr><td>총 상품금액 : <span id="totalPrice">[[${#numbers.formatCurrency(goodsInfo.goodsPrice) + '원' }]]</span> </td></tr>
+	<tr><td>총 상품금액 : <span id="totalPrice"></span> </td></tr>
 	<tr><td><button type="button" id="cartBtn">장바구니</button> | 
 			<button type="button" id="wishBtn">위시리스트</button> |
 			<!-- 이미지를 클릭시 위시리스트에 추가. -->
