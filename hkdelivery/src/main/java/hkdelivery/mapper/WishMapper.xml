@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="hkdelivery.mapper.WishMapper">
+
+<!-- arg{n} 을 써도 된다. 여기서 arg 순서는 인터페이스 mapper에서 전달해준 순서이다.-->
+<select id="wishGoodsSelect" resultType="integer">
+select 1 from wishlist 
+where goods_num = #{arg0} and member_num = #{arg1} 
+</select>
+
+
+<insert id="wishInsert">
+insert into wishlist (member_num, goods_num, wishlist_date) 
+values (#{arg1},#{arg0},now()) 
+</insert>
+
+<delete id="wishDelete">
+delete from wishlist 
+where member_num = #{arg1} and goods_num = #{arg0}
+</delete>
+
+
+
+
+</mapper>

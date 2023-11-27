@@ -3,6 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.1.min.js"></script>
+<script type="text/javascript">
+$(function(){	//위시리스트 하트모양 클릭
+	$("#wish").click(function(){
+		//로그인 한 사람만 위시리스트 등록 가능하게.
+		if ([[${session.auth == null}]]) {
+			 window.open("/login/item.login", "login", "width=315, height=200 top=100, left=100"); //login컨트롤러에서 로그인 팝업 처리
+		} else {
+			//로그인 한 상태면 관심상품 등록
+			$.ajax({
+				type : "post",
+				url : "goodsWishAdd", //현주소가 pathVariable 이라면 '../' 를 추가해줘야 하지만 굿즈넘을 쿼리로 받아와서 ㄱㅊ.
+				dataType : "text",
+				data : {"goodsNum" : "[[${goodsInfo.goodsNum}]]"},
+				success : function(result) {
+					if (result.trim() == "1") {
+						//등록되면 풀 하트
+						$("#wish").attr("src", "/static/images/heart_full.png");
+					} else if (result.trim() == "0"){
+						//취소하면 블랭크 하트
+						$("#wish").attr("src", "/static/images/heart_blank.png");
+					} else if (result.trim() == "999") {
+						alert("위시리스트는 회원만 사용 가능. 업체나 직원 사용불가");
+					}
+				},
+				error : function() {
+					alert("ajax 에러!")
+				}
+			});
+		}
+	});
+});
+
+</script>
+
 </head>
 <body>
 
@@ -18,9 +53,19 @@
 					<span th:if="${goodsInfo.deliveryCost != 0}">[[${#numbers.formatCurrency(goodsInfo.deliveryCost) + '원'}]]</span> </td></tr>
 	<tr><td>상품설명 : [[${goodsInfo.goodsContent}]]</td></tr>
 	<tr><td>수량 : <input type="number" min="1" value="1" id="qty" name="qty"/> </td></tr>
-	<tr><td>총 상품금액 : <span id="totalPrice"></span> </td></tr>
+	<tr><td>총 상품금액 : <span id="totalPrice">[[${#numbers.formatCurrency(goodsInfo.goodsPrice) + '원' }]]</span> </td></tr>
 	<tr><td><button type="button" id="cartBtn">장바구니</button> | 
-			<button type="button" id="wishBtn">위시리스트</button> 
+			<button type="button" id="wishBtn">위시리스트</button> |
+			<!-- 이미지를 클릭시 위시리스트에 추가. -->
+			<!-- 이미지는 main/resource/static/images 밑에 경로를 쓰지만, -->
+			<!-- 실제로는 hkdelivery/bin/main/static/images 안에 이미지 파일을 넣어야 함. -->
+			<!-- wish 가 있으면 관심상품 null 이면 관심상품 아님 -->
+			<th:block th:if="${wish == null}">
+				<img src="/static/images/heart_blank.png" id="wish" width="20"/>
+			</th:block>
+			<th:block th:if="${wish != null}">
+				<img src="/static/images/heart_full.png" id="wish" width="20"/>
+			</th:block>
 	<tr>
 		<!-- <span th:utext="${#strings.replace(goodsInfo.goodsContent,newLine,'&lt;br /&gt;')}"></span> -->
 	</tr>

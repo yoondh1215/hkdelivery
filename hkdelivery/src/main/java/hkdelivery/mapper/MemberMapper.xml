@@ -26,8 +26,12 @@ select
 from members
 </select>
 
-
-
+<!-- memberId 로 memberNum 을 찾기-->
+<select id="getMemberNum" parameterType="string" resultType="string">
+select member_num memberNum 
+from members 
+where member_id = #{id}
+</select>
 
 
 

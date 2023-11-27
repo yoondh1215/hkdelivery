@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import hkdelivery.command.GoodsCommand;
 import hkdelivery.service.goods.GoodsAutoNumService;
 import hkdelivery.service.goods.GoodsDeleteService;
 import hkdelivery.service.goods.GoodsInfoService;
 import hkdelivery.service.goods.GoodsShopListService;
+import hkdelivery.service.goods.GoodsWishService;
 import hkdelivery.service.goods.GoodsWriteService;
 import jakarta.servlet.http.HttpSession;
 
@@ -69,19 +71,31 @@ public class GoodsController {
 	@Autowired
 	GoodsInfoService goodsInfoService;
 	@GetMapping("goodsInfo")
-	public String goodsInfo(@RequestParam("goodsNum") String goodsNum, Model model) {
-		goodsInfoService.execute(goodsNum, model);
+	public String goodsInfo(@RequestParam("goodsNum") String goodsNum, Model model, HttpSession session) {
+		goodsInfoService.execute(goodsNum, model, session);
 		return "thymeleaf/goods/goodsInfo";
 	}
 	
 	//member가 주문하기 위한 기능
 	@GetMapping("goodsOrder")
-	public String execute (@RequestParam("goodsNum") String goodsNum, Model model) {
-		goodsInfoService.execute(goodsNum, model);
+	public String execute (@RequestParam("goodsNum") String goodsNum, Model model, HttpSession session) {
+		goodsInfoService.execute(goodsNum, model, session);
 		
 		return "thymeleaf/goods/goodsOrder";
 	}
 	
 	
+	// goodsOrder 페이지에서 ajax로 위시리스트에 추가하라고 보냄
+	// /goods/goodsOrder?goodsNum=good100001 
+	// ajax에 0 또는 1을 전달해야 하므로 RestAPI 나 @ResponseBody 사용
+	// 누구의 관심상품인지 알기 위해 로그인 정보가 필요하므로 session 추가.
+	@Autowired
+	GoodsWishService goodsWishService;
+	@PostMapping("goodsWishAdd")
+	public @ResponseBody String goodsWishAdd (@RequestParam("goodsNum") String goodsNum, HttpSession session) {
+		
+		return goodsWishService.execute(goodsNum, session);
+		
+	}
 	
 }
