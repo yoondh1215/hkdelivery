@@ -46,8 +46,8 @@ $(function(){
 			<td>[[${idx.count}]]</td>
 			<td><img th:src="|/static/upload/${dto.goodsMain}|" /></td>
 			<td><a th:href="@{/goods/goodsInfo(goodsNum=${dto.goodsNum})}">[[${dto.goodsName}]]</a></td>
-			<td>[[${dto.goodsPrice}]]</td>
-			<td>[[${dto.deliveryCost}]]</td>
+			<td>[[${#numbers.formatCurrency(dto.goodsPrice) + '원' }]]</td>
+			<td>[[${#numbers.formatCurrency(dto.deliveryCost) + '원'}]]</td>
 			<td><input type="checkbox" name="wishGoodsDel" th:value="${dto.goodsNum}"/>
 				<button type="button" 
 					th:attr='onclick=|location.href="wishDel?goodsNum=${dto.goodsNum}"|'>삭제</button></td>

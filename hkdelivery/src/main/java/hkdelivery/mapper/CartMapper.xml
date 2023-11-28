@@ -48,6 +48,103 @@ values (#{memberNum}, #{goodsNum}, #{cartQty})
 </insert>
 
 
+<!-- CartDTO와 GoodsDTO가 함께 들어있는 CartGoodsDTO 로 받기-->
+<!-- 일반속성부터 적어줘야 한다.-->
+<resultMap id="CartlistResultMap" type="cartGoodsDTO">
+	<result column="total_price" jdbcType="BIGINT" property="totalPrice" />
+	<association property="goodsDTO" javaType="goods" >
+		<result column="shop_num" jdbcType="VARCHAR" property="shopNum" />
+		<result column="goods_name" jdbcType="VARCHAR" property="goodsNum" />
+		<result column="goods_content" jdbcType="VARCHAR" property="goodsContent" />
+		<result column="goods_main" jdbcType="VARCHAR" property="goodsMain" />
+		<result column="goods_main_org" jdbcType="VARCHAR" property="goodsMainOrg" />
+		<result column="goods_price" jdbcType="BIGINT" property="goodsPrice" />
+		<result column="delivery_cost" jdbcType="BIGINT" property="deliveryCost" />
+	</association>
+	<association property="cartDTO" javaType="cart">
+		<result column="goods_num" jdbcType="VARCHAR" property="goodsNum" />
+		<result column="member_num" jdbcType="VARCHAR" property="memberNum" />
+		<result column="cart_qty" jdbcType="BIGINT" property="cartQty" />	
+	</association>
+</resultMap>
+
+<select id="cartList" parameterType="string" resultMap="CartlistResultMap">
+select c.goods_num, c.member_num, c.cart_qty, 
+	g.shop_num, g.goods_name, g.goods_content, g.goods_main, g.goods_main_org, 
+	g.goods_price, g.delivery_cost, 
+	g.goods_price * c.cart_qty total_price  
+from cart c, goods g 
+where c.goods_num = g.goods_num 
+and member_num = #{memberNum}
+</select>
+
+<!-- 합계이므로 group by 절 사용-->
+<select id="sumPrice" parameterType="string" resultType="integer">
+select sum(goods_price * cart_qty + delivery_cost) 
+from goods g, cart c 
+where g.goods_num = c.goods_num 
+and member_num = #{memberNum} 
+group by member_num 
+</select>
+
+<!-- 체크박스 선택항목들을 한꺼번에 삭제-->
+<delete id="goodsNumsDelete" parameterType="hashmap">
+delete from cart 
+where member_num = #{memberNum} 
+and goods_num in 
+<foreach collection="goodsNums" item="goodsNum" open="(" close=")" separator="," index="index">
+	#{goodsNum}
+</foreach>
+</delete>
+
+<delete id="goodsNumDelete">
+delete from cart 
+where goods_num = #{goodsNum} and member_num = #{memberNum}
+</delete>
+
+<update id="cartQtyDown">
+update cart 
+set cart_qty = cart_qty - 1 
+where goods_Num = #{goodsNum} and member_num = #{memberNum}
+</update>
+
+
+<select id="goodsSelect" parameterType="string" resultMap="goodsResultMap">
+select goods_num, shop_num, goods_name, goods_content, 
+	goods_main, goods_main_org, goods_image, goods_image_org, 
+	goods_price, delivery_cost 
+from goods 
+where goods_num = #{goodsNum}
+</select>
+
+<resultMap id="cartResultMap" type="cart">
+	<id column="member_num" jdbcType="VARCHAR" property="member_num"/>
+	<result column="goods_num" jdbcType="VARCHAR" property="goodsNum"/>
+	<result column="cart_qty" jdbcType="BIGINT" property="cartQty"/>
+</resultMap>
+
+<select id="cartSelect" resultMap="cartResultMap">
+select member_num, goods_num, cart_qty 
+from cart 
+where member_num = #{memberNum}
+</select>
+
+<!-- 위 두 개의 select 문을 이용해 데이터 불러오기-->
+<resultMap id="cartGoodsResultMap" type="cartGoodsDTO">
+	<association property="goodsDTO" javaType="goods" select="goodsSelect" column="goodsNum"/>
+	<association property="cartDTO" javaType="cart" select="cartSelect" column="memberNum"/>
+</resultMap>
+
+
+
+<select id="goodsPriceMulCartQty" resultMap="cartGoodsResultMap">
+select goods_num goosNum 
+from cart 
+where goods_num = #{goodsNum} and member_Num = #{memberNum}
+</select>
+
+
+
 </mapper>
 
 
