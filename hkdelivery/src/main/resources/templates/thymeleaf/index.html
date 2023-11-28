@@ -52,9 +52,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 			<!-- 회원과 점포의 메뉴를 th:block과 th:if 조건으로 나눈다. 세션 auth의 grade를 이용한다. -->
 			<th:block th:if="${session.auth.grade == 'mem'}">
 			<ul>
-				<li><a href="member/memberUpdate">내 정보 수정 (미구현)</a></li>
-				<li>장바구니</li>
-				<li><a href="goods/wishList">위시리스트</a></li>
+				<li><a href="/member/memberUpdate">내 정보 수정 (미구현)</a></li>
+				<li><a href="/cart/cartList">장바구니</a></li>
+				<li><a href="/goods/wishList">위시리스트</a></li>
 			</ul>
 			</th:block>
 		

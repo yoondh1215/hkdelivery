@@ -33,6 +33,21 @@ from goods
 </select>
 
 
+<!-- 장바구니에 상품이 이미 있으면 update 없으면 insert-->
+<!-- merge 를 이용함-->
+<insert id="cartInsert" parameterType="cart">
+merge into cart c 
+using (select goods_num from goods where goods_num = #{goodsNum}) g 
+on (c.goods_num = g.goods_num and c.member_num = #{memberNum}) 
+when matched then 
+update set 
+cart_qty = cart_qty + #{cartQty} 
+when not matched then 
+insert (member_num, goods_num, cart_qty) 
+values (#{memberNum}, #{goodsNum}, #{cartQty}) 
+</insert>
+
+
 </mapper>
 
 

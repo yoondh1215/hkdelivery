@@ -14,7 +14,7 @@ $(function(){	//위시리스트 하트모양 클릭
 			//로그인 한 상태면 관심상품 등록
 			$.ajax({
 				type : "post",
-				url : "goodsWishAdd", //현주소가 pathVariable 이라면 '../' 를 추가해줘야 하지만 굿즈넘을 쿼리로 받아와서 ㄱㅊ.
+				url : "/goods/goodsWishAdd", //현주소가 pathVariable 이라면 '../' 를 추가해줘야 하지만 굿즈넘을 쿼리로 받아와서 ㄱㅊ.
 				dataType : "text",
 				data : {"goodsNum" : "[[${goodsInfo.goodsNum}]]"},
 				success : function(result) {
@@ -44,6 +44,40 @@ $(function(){	//위시리스트 하트모양 클릭
 		const formattedMoney = moneyFormatter.format(money);
 		//총 상품금액에 적용
 		$("#totalPrice").text(formattedMoney + '원');
+	});
+	
+	$("#cartBtn").click(function(){
+		//장바구니에 담으려면 먼저 로그인이 되어 있어야 함.
+		if ([[${session.auth == null}]]) {
+			 window.open("/login/item.login", "login", "width=315, height=200 top=100, left=100"); //login컨트롤러에서 로그인 팝업 처리
+		} else {
+			//ajax 이용해 비동식으로 전달.
+			$.ajax({
+				type: "get",
+				url: "/cart/cartAdd",
+				dataType: "text",
+				//상품번호와 수량 전달
+				data: {"goodsNum" : "[[${goodsInfo.goodsNum}]]", "qty" : $("#qty").val()},
+				success : function(result){
+					if (result.trim() == "200") {
+						//return값이 200이면 정상 저장됨
+						if (confirm("확인을 누르시면 장바구니로 이동합니다. 계속 쇼핑하려면 '취소' 를 클릭하세요. ")) {
+							//확인 을 누르면 장바구니 페이지로 이동
+							location.href="/cart/cartList"
+						} else if (result.trim() == "999") {
+							//999 리턴이면 grade가 mem이 아닌 사용자임
+							alert("장바구니는 회원만 사용 가능합니다 (업체 및 직원 사용불가)");
+						} else if (result.trim() == "000") {
+							//000 리턴이면 비로그인 상태
+							alert("장바구니는 로그인 후 이용 가능합니다");
+						}
+					}
+				},
+				error: function(){
+					alert ("goodsOrder ajax Error!");
+				}
+			});
+		}
 	});
 	
 }); 
