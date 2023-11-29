@@ -25,6 +25,7 @@
 		</td>
 	</tr>
 </table>
+<!-- get으로 가는 goodsOrder는 이미 GoodsController 에서 써먹었다. 구분을 위해 purchase컨트롤러고 가도록 해준다.-->
 <form action="goodsOrder" method="post" >
 <input type="hidden" name="sumTotalPrice" th:value="${sumTotalPrice}" />
 <input type="hidden" name="sumDeliveryCost" th:value="${sumDeliveryCost}" />

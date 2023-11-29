@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 	
+	"-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hkdelivery.mapper.PurchaseMapper">
+
+
+<!-- 20231130purchase10001 형식으로 purchaseNum을 뽑는다. 날짜를 붙이는 이유는 관리의 용이성을 위함이다.-->
+<select id="selectNum" resultType="string">
+select concat(to_char(now(), 'YYYYMMDD'), coalesce(max(substr(PURCHASE_NUM,9))::integer,10000) + 1)
+from PURCHASE
+where substr(PURCHASE_NUM,1,8) = to_char(now(), 'YYYYMMDD')
+</select>
+
+<insert id="purchaseInsert" parameterType="purchase">
+insert into purchase (purchase_num, member_num, 
+	purchase_name, purchase_date, purchase_phone, 
+	purchase_addr, purchase_addr_detail, purchase_post, 
+	purchase_message, purchase_status, purchase_price, 
+	delivery_name) 
+values (#{purchaseNum}, #{memberNum}, 
+	#{purchaseName}, now(), #{purchasePhone}, 
+	#{purchaseAddr}, #{purchaseAddrDetail}, #{purchasePost}, 
+	#{purchaseMessage}, #{purchaseStatus}, #{purchasePrice},
+	#{deliveryName} )
+</insert>
+
+<!-- cart 의 정보를 불러와서 purchaseList에 저장. select절에 구매번호를 적어줌.-->
+<insert id="purchaseListInsert" parameterType="purchaseList">
+insert into purchase_list (purchase_num, goods_num, 
+	purchase_qty, total_price) 
+select #{purchaseNum}, c.goods_num, cart_qty, goods_price * cart_qty 
+from goods g, cart c 
+where g.goods_num = c.goods_num and member_num = #{memberNum} 
+and g.goods_num in 
+	<foreach collection="goodsNums" item="goodsNum" open="(" close=")" separator="," index="index">
+		#{goodsNum}
+	</foreach>
+</insert>
+
+
+<!-- purchaseName을 만들기 위한 쿼리들-->
+
+<resultMap id="purchaseResultMap" type="purchase">
+	<!-- 생성자-->
+	<constructor>
+		<idArg column="purchase_num" javaType="string"/>
+		<arg column="member_num" javaType="string"/>
+		<arg column="purchase_name" javaType="string"/>
+		<arg column="purchase_date" javaType="java.util.Date"/>
+		<arg column="purchase_phone" javaType="string"/>
+		<arg column="purchase_addr" javaType="string"/>
+		<arg column="purchase_addr_detail" javaType="string"/>
+		<arg column="purchase_post" javaType="string"/>
+		<arg column="purchase_message" javaType="string"/>
+		<arg column="purchase_status" javaType="string"/>
+		<arg column="purchase_price" javaType="integer"/>
+		<arg column="delivery_name" javaType="string"/>
+	</constructor>
+</resultMap>
+
+
+<select id="purchaseSelect" parameterType="string" resultMap="purchaseResultMap">
+select purchase_num, member_num, purchase_name, 
+	purchase_date, purchase_phone, purchase_addr, 
+	purchase_addr_detail, purchase_post, purchase_message, 
+	purchase_status, purchase_price, delivery_name 
+from purchase 
+where purchase_num = #{purchaseNum}
+</select>
+
+<select id="firstGoods" parameterType="string" resultType="string">
+select goods_name from goods 
+where goods_num = (
+	select goods_num from (select 
+								row_number() over(order by goods_num) rn, 
+								goods_num from purchase_list 
+							where purchase_num = #{purchaseNum}) sub
+	where rn = 1
+)
+</select>
+
+
+<insert id="paymentInsert" parameterType="payment">
+insert into payment	(purchase_num, confirm_number, 
+	card_num, tid, result_message, total_price, 
+	pay_method, appl_date, appl_time, 
+	purchase_name) 
+values (#{purcahseNum},#{confirmnumber},
+	#{cardnum}, #{tid}, #{resultmessage}, #{totalPrice},
+	#{paymethod},#{appldate},#{appltime}
+	#{purchaseName})
+</insert>
+
+<update id="purchaseStatusUpdate" parameterType="string">
+
+</update>
+
+
+
+
+
+
+</mapper>

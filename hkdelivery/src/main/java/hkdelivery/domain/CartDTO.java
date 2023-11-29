@@ -9,6 +9,15 @@ public class CartDTO {
 	String goodsNum;
 	Integer cartQty;
 	
+	String[] goodsNums;
+	
+	
+	public String[] getGoodsNums() {
+		return goodsNums;
+	}
+	public void setGoodsNums(String[] goodsNums) {
+		this.goodsNums = goodsNums;
+	}
 	public String getMemberNum() {
 		return memberNum;
 	}

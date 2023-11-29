@@ -37,7 +37,8 @@ public interface CartMapper {
 	public CartGoodsDTO goodsPriceMulCartQty (@Param("goodsNum") String goodsNum, 
 			@Param("memberNum") String memberNum); 
 	
-	
+	//구매시 purchaseList에 상품정보가 담기면 기존 cart의 상품은 지워져야 함.
+	public int cartGoodsDeletes(CartDTO dto);
 	
 	
 }
