@@ -104,7 +104,7 @@ $(function(){	//위시리스트 하트모양 클릭
 			<button type="button" id="wishBtn">위시리스트</button> |
 			<!-- 이미지를 클릭시 위시리스트에 추가. -->
 			<!-- 이미지는 main/resource/static/images 밑에 경로를 쓰지만, -->
-			<!-- 실제로는 hkdelivery/bin/main/static/images 안에 이미지 파일을 넣어야 함. -->
+			<!-- bin에 업로드된 파일은 서버 종료시 전부 날아가므로 반드시 src에다가도 복사해놓아야 다음에도 유지된다. -->
 			<!-- wish 가 있으면 관심상품 null 이면 관심상품 아님 -->
 			<th:block th:if="${wish == null}">
 				<img src="/static/images/heart_blank.png" id="wish" width="20"/>

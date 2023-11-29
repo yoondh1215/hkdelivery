@@ -26,7 +26,8 @@ public class CartListService {
 		
 		//상품정보와 장바구니 정보를 같이 가져와야 한다.
 		//domain에 CartDTO, GoodsDTO를 가진 CartGoodsDTO 를 만든다.
-		List<CartGoodsDTO> list = cartMapper.cartList(memberNum);
+		//주문할때 prodCk만 가져오도록 cartListMapper에 추가했으므로 오류가 안 나도록 보낼 인자로 null을 추가해준다.
+		List<CartGoodsDTO> list = cartMapper.cartList(memberNum, null);
 		
 		//장바구니의 상품 전체 합계금액 가져오기
 		Integer sumPrice = cartMapper.sumPrice(memberNum);

@@ -16,8 +16,11 @@ public interface CartMapper {
 	public List<GoodsDTO> goodsAllSelect();
 	
 	public int cartInsert(CartDTO dto);
-	
-	public List<CartGoodsDTO> cartList(String memberNum);
+	//장바구니 조회에서 결제로 넘어갈 때 prodCk가 체크된 것만 가져와야 하므로 받아올 인자로 prodCk 배열 추가함.
+	//따라서 기존 cartListService도 수정해야 함.
+	//추가로 마이바티스 오류가 생기므로 @Param 으로 받아준다.
+	public List<CartGoodsDTO> cartList(@Param ("memberNum") String memberNum, 
+										@Param("goodsNums") String [] prodCk);
 
 	public Integer sumPrice(String memberNum);
 	

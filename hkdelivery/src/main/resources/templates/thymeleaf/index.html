@@ -99,7 +99,8 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 			<!-- goodsList로 받아온 값을 하나씩 dto에 전달, index인 idx는 반복할때마다 0부터 1씩 증가. -->
 			<th:block th:each="dto, idx : ${goodsList}">
 				<td>
-					<a th:href="@{goods/goodsOrder(goodsNum=${dto.goodsNum})}"> <img th:src="|/static/upload/${dto.goodsMain}|"> </a> <br/>
+					<!-- 업로드된 이미지는 bin에 저장되었다 서버 종료시 날아가므로 src에도 복사해놓아야 다음번에 엑박이 안뜬다. -->
+					<a th:href="@{goods/goodsOrder(goodsNum=${dto.goodsNum})}"> <img th:src="|/static/upload/${dto.goodsMain}|" style="width:400px;height:400px"> </a> <br/>
 					상품명 : [[${dto.goodsName}]] <br/>
 					가격 : [[${dto.goodsPrice}]] <br/>
 					배송비 : 

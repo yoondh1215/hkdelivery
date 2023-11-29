@@ -48,6 +48,7 @@ values (#{memberNum}, #{goodsNum}, #{cartQty})
 </insert>
 
 
+<!-- cartList의 결과를 받은 resultMap이다. 굿즈와 카트가 모두 필요하다.-->
 <!-- CartDTO와 GoodsDTO가 함께 들어있는 CartGoodsDTO 로 받기-->
 <!-- 일반속성부터 적어줘야 한다.-->
 <resultMap id="CartlistResultMap" type="cartGoodsDTO">
@@ -74,8 +75,16 @@ select c.goods_num, c.member_num, c.cart_qty,
 	g.goods_price, g.delivery_cost, 
 	g.goods_price * c.cart_qty total_price  
 from cart c, goods g 
-where c.goods_num = g.goods_num 
-and member_num = #{memberNum}
+<trim prefix="where" prefixOverrides="and | or">
+c.goods_num = g.goods_num and member_num = #{memberNum}
+	<if test="goodsNums != null">
+		and g.goods_num in 
+			<foreach collection="goodsNums" item="goodsNum" open="(" close=")" separator="," index="index">
+				#{goodsNum}
+			</foreach>
+	</if>
+</trim>
+
 </select>
 
 <!-- 합계이므로 group by 절 사용-->
