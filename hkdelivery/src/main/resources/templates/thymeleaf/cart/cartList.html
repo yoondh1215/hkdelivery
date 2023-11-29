@@ -138,7 +138,7 @@ function prodChk(){
 	<tr th:each="dto : ${list}">
 		<td><input type="checkbox" name="prodCk" checked="checked"
 										 th:value="${dto.goodsDTO.goodsNum}"/></td>
-		<td><img th:src="|/static/upload/${dto.goodsDTO.goodsMain}|" /></td>
+		<td><img th:src="|/static/upload/${dto.goodsDTO.goodsMain}|" style="width:150px;height:150px"/></td>
 		<td>[[${dto.goodsDTO.goodsName}]]</td>
 		<!-- 장바구니의 상품 수량 변경시 체크박스에 따라 금액도 변경 -->
 		<td><a th:href="|javascript:checkQty('${dto.goodsDTO.goodsNum}')|"> - </a> 

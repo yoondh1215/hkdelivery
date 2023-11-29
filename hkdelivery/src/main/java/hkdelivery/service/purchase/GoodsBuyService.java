@@ -24,11 +24,15 @@ public class GoodsBuyService {
 		AuthInfoDTO authInfo = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = memberMapper.getMemberNum(authInfo.getId()); 
 		
+		System.out.println("memberNum을 확인ㅇ해라 !" + memberNum);
+		
 		//카트로부터 구매정보를 가져와야 함.
 		//prodCk가 체크된 goodsNum만 가져와야 함.
 		//따라서 cartMapper의 cartList메서드의 인자에 스트링 멤버넘뿐 아니라 스트링[]prodCk를 추가해준다.
 		
 		List<CartGoodsDTO> list = cartMapper.cartList(memberNum, prodCk); 
+		
+		
 		
 		Integer sumPrice = 0;	//상품수량 합계금액
 		Integer sumTotalPrice = 0;	//결제금액

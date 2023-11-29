@@ -55,7 +55,8 @@ values (#{memberNum}, #{goodsNum}, #{cartQty})
 	<result column="total_price" jdbcType="BIGINT" property="totalPrice" />
 	<association property="goodsDTO" javaType="goods" >
 		<result column="shop_num" jdbcType="VARCHAR" property="shopNum" />
-		<result column="goods_name" jdbcType="VARCHAR" property="goodsNum" />
+		<result column="goods_num" jdbcType="VARCHAR" property="goodsNum" />
+		<result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
 		<result column="goods_content" jdbcType="VARCHAR" property="goodsContent" />
 		<result column="goods_main" jdbcType="VARCHAR" property="goodsMain" />
 		<result column="goods_main_org" jdbcType="VARCHAR" property="goodsMainOrg" />
@@ -75,13 +76,14 @@ select c.goods_num, c.member_num, c.cart_qty,
 	g.goods_price, g.delivery_cost, 
 	g.goods_price * c.cart_qty total_price  
 from cart c, goods g 
-<trim prefix="where" prefixOverrides="and | or">
-c.goods_num = g.goods_num and member_num = #{memberNum}
+<trim prefix="where" prefixOverrides="AND | OR">
+	c.GOODS_NUM = g.GOODS_NUM and MEMBER_NUM = #{memberNum}
 	<if test="goodsNums != null">
-		and g.goods_num in 
-			<foreach collection="goodsNums" item="goodsNum" open="(" close=")" separator="," index="index">
-				#{goodsNum}
-			</foreach>
+	    and g.goods_num in 
+		<foreach collection="goodsNums" item="goodsNum" close=")" open="(" separator=","
+				index="index">
+			#{goodsNum}
+		</foreach>
 	</if>
 </trim>
 

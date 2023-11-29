@@ -19,6 +19,8 @@ public class PurchaseController {
 	public String goodsBuy(@RequestParam(value="prodCk") String [] prodCk,	//checkbox를 배열로 전환
 			HttpSession session, Model model) {
 		
+	
+		
 		goodsBuyService.execute(prodCk, session, model);
 		return "thymeleaf/purchase/goodsOrder";
 	}

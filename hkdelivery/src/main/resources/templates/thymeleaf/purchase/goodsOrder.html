@@ -15,7 +15,7 @@
 	<tr><td>주문 상품 정보</td>	<td>수량/상품금액</td><td>배송비</td></tr>
 	<tr th:each="dto : ${list}">
 		<td>
-			<img th:src="|/static/upload/${dto.goodsDTO.goodsMainStore}|" /><br />
+			<img th:src="|/static/upload/${dto.goodsDTO.goodsMain}|" style="width:150px;height:150px"/><br />
 			[[${dto.goodsDTO.goodsName}]]
 		</td>	
 		<td>[[${dto.cartDTO.cartQty}]]/[[${dto.goodsDTO.goodsPrice}]]</td>
