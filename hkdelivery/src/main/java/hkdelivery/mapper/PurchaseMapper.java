@@ -1,8 +1,11 @@
 package hkdelivery.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import hkdelivery.domain.OrderListDTO;
 import hkdelivery.domain.PaymentDTO;
 import hkdelivery.domain.PurchaseDTO;
 import hkdelivery.domain.PurchaseListDTO;
@@ -24,5 +27,11 @@ public interface PurchaseMapper {
 	
 	public int paymentInsert(PaymentDTO dto);
 	public int purchaseStatusUpdate(@Param("status") String status, @Param("purchaseNum") String purchaseNum);
+	
+	
+	public List<OrderListDTO> orderList(String memberNum);
+	
+	//구매 취소
+	public int paymentDelete(String purchaseNum);
 	
 }

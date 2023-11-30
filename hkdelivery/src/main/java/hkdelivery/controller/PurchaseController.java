@@ -13,6 +13,8 @@ import hkdelivery.service.IniPayReqService;
 import hkdelivery.service.purchase.GoodsBuyService;
 import hkdelivery.service.purchase.GoodsOrderService;
 import hkdelivery.service.purchase.IniPayReturnService;
+import hkdelivery.service.purchase.OrderProcessListService;
+import hkdelivery.service.purchase.PaymentDeleteService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -68,6 +70,26 @@ public class PurchaseController {
 	public String close() {
 		return "thymeleaf/purchase/close";
 	}
+	
+	@Autowired
+	OrderProcessListService orderProcessListService;
+	//인덱스에서 회원이 누른 주문목록
+	@RequestMapping("orderList")
+	public String orderList(HttpSession session, Model model) {
+		orderProcessListService.execute(session, model);
+		return "thymeleaf/purchase/orderList";
+	}
+	
+	//orderList.html에서 결제 취소
+	@Autowired
+	PaymentDeleteService paymentDeleteService;
+	@RequestMapping("paymentDel")
+	public String execute (@RequestParam("puchaseNum") String purchaseNum) {
+		paymentDeleteService.execute(purchaseNum);
+		return "redirect:orderList";
+	}
+	
+	
 	
 	
 }
