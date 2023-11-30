@@ -23,16 +23,34 @@ public class PurchaseDTO {
 	String deliveryName;
 	
 	
-	//디폴트 생성자 만들어주기
-	
-	
+	//디폴트 생성자 만들어주기. 롬복이면 @Data @NoArgsConstructor 인가? 쓰면 됨 난 안먹혀서 ctrl shift s 누르고 컨스트럭터 만들어줌
+	public PurchaseDTO() {
+		super();
+	}
+
 
 	//생성자. lombok이 정상작동 한다면 @AllArgsConstructor 쓰면 됨
-	//생성자 만들어주기는 다 실패함! toString으로 강제로 만들어지는데 왜인지는 연구 필요
-	
-	
-	
-	
+	public PurchaseDTO(String purchaseNum, String memberNum, String purchaseName, Date purchaseDate,
+			String purchasePhone, String purchaseAddr, String purchaseAddrDetail, Integer purchasePost,
+			String purchaseMessage, String purchaseStatus, Integer purchasePrice, String deliveryName) {
+		super();
+		this.purchaseNum = purchaseNum;
+		this.memberNum = memberNum;
+		this.purchaseName = purchaseName;
+		this.purchaseDate = purchaseDate;
+		this.purchasePhone = purchasePhone;
+		this.purchaseAddr = purchaseAddr;
+		this.purchaseAddrDetail = purchaseAddrDetail;
+		this.purchasePost = purchasePost;
+		this.purchaseMessage = purchaseMessage;
+		this.purchaseStatus = purchaseStatus;
+		this.purchasePrice = purchasePrice;
+		this.deliveryName = deliveryName;
+	}
+
+	//이하 Getter Setter
+
+
 	public String getPurchaseNum() {
 		return purchaseNum;
 	}

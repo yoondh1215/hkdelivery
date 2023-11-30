@@ -55,6 +55,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 				<li><a href="member/memberUpdate">내 정보 수정 (미구현)</a></li>
 				<li><a href="cart/cartList">장바구니</a></li>
 				<li><a href="goods/wishList">위시리스트</a></li>
+				<li><a href="/purchase/orderList">주문 목록</a></li>
 			</ul>
 			</th:block>
 		
@@ -100,7 +101,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 			<th:block th:each="dto, idx : ${goodsList}">
 				<td>
 					<!-- 업로드된 이미지는 bin에 저장되었다 서버 종료시 날아가므로 src에도 복사해놓아야 다음번에 엑박이 안뜬다. -->
-					<a th:href="@{goods/goodsOrder(goodsNum=${dto.goodsNum})}"> <img th:src="|/static/upload/${dto.goodsMain}|" style="width:400px;height:400px"> </a> <br/>
+					<a th:href="@{goods/goodsOrder(goodsNum=${dto.goodsNum})}"> <img th:src="|/static/upload/${dto.goodsMain}|" style="width:400px;height:400px"/> </a> <br/>
 					상품명 : [[${dto.goodsName}]] <br/>
 					가격 : [[${dto.goodsPrice}]] <br/>
 					배송비 : 

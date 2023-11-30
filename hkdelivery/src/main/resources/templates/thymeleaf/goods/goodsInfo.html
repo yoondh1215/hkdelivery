@@ -15,11 +15,11 @@
 		<!-- <span th:utext="${#strings.replace(goodsInfo.goodsContent,newLine,'&lt;br /&gt;')}"></span> -->
 	</tr>
 	<tr><td colspan="2">
-		<img th:src="|/static/upload/${goodsInfo.goodsMain}|" />
+		<img th:src="|/static/upload/${goodsInfo.goodsMain}|" style="width:400px;height:400px"/>
 	</td></tr>
 	<tr><td colspan="2">
 		<th:block th:each="goodsImage : ${#strings.arraySplit(goodsInfo.goodsImage,'-') }">
-		<img th:src="|/static/upload/${goodsImage}|" /><br />
+		<img th:src="|/static/upload/${goodsImage}|" style="width:400px;height:400px"/><br />
 		</th:block>
 	</td></tr>
 </table>

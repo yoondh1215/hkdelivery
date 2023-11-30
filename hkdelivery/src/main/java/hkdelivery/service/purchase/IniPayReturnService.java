@@ -147,6 +147,9 @@ public class IniPayReturnService {
 					session.setAttribute("auth", authInfo);
 					model.addAttribute("userId", authInfo.getId());
 					model.addAttribute("price", dto.getTotalprice());
+					
+					
+					
 				} catch (Exception ex) {
 
 					//####################################

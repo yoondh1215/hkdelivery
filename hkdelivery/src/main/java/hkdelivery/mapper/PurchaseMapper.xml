@@ -51,7 +51,7 @@ and g.goods_num in
 		<arg column="purchase_phone" javaType="string"/>
 		<arg column="purchase_addr" javaType="string"/>
 		<arg column="purchase_addr_detail" javaType="string"/>
-		<arg column="purchase_post" javaType="string"/>
+		<arg column="purchase_post" javaType="integer"/>
 		<arg column="purchase_message" javaType="string"/>
 		<arg column="purchase_status" javaType="string"/>
 		<arg column="purchase_price" javaType="integer"/>
@@ -68,6 +68,14 @@ select purchase_num, member_num, purchase_name,
 from purchase 
 where purchase_num = #{purchaseNum}
 </select>
+
+
+<select id="purchaseGoodsCount" parameterType="string" resultType="integer">
+select count(*) from purchase_list 
+where purchase_num = #{purchaseNum}
+
+</select>
+
 
 <select id="firstGoods" parameterType="string" resultType="string">
 select goods_name from goods 
