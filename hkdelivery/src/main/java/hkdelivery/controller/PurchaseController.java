@@ -13,7 +13,7 @@ import hkdelivery.service.IniPayReqService;
 import hkdelivery.service.purchase.GoodsBuyService;
 import hkdelivery.service.purchase.GoodsOrderService;
 import hkdelivery.service.purchase.IniPayReturnService;
-import hkdelivery.service.purchase.OrderProcessListService;
+import hkdelivery.service.purchase.OrderListService;
 import hkdelivery.service.purchase.PaymentDeleteService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -35,11 +35,7 @@ public class PurchaseController {
 	GoodsOrderService goodsOrderService;
 	@PostMapping("goodsOrder")
 	public String goodsOrder(PurchaseCommand purchaseCommand, HttpSession session, Model model) {
-		
-		System.out.println("purchase/goodsOrder 링크가 맞는지 확인용임.");
-		
 		String purchaseNum = goodsOrderService.execute(purchaseCommand, session, model);
-		
 		return "redirect:paymentOk?purchaseNum="+purchaseNum;
 	}
 	
@@ -71,14 +67,6 @@ public class PurchaseController {
 		return "thymeleaf/purchase/close";
 	}
 	
-	@Autowired
-	OrderProcessListService orderProcessListService;
-	//인덱스에서 회원이 누른 주문목록
-	@RequestMapping("orderList")
-	public String orderList(HttpSession session, Model model) {
-		orderProcessListService.execute(session, model);
-		return "thymeleaf/purchase/orderList";
-	}
 	
 	//orderList.html에서 결제 취소
 	@Autowired
@@ -89,7 +77,15 @@ public class PurchaseController {
 		return "redirect:orderList";
 	}
 	
-	
+	//orderProcessListService 는 실패했음. 전부 삭제해야 하나 혹시 몰라 남겨둠
+	@Autowired
+	OrderListService orderListService; 
+	//인덱스에서 회원이 누른 주문목록
+	@RequestMapping("orderList")
+	public String orderList(HttpSession session, Model model) {
+		orderListService.execute(session, model);
+		return "thymeleaf/purchase/orderList";
+	}
 	
 	
 }

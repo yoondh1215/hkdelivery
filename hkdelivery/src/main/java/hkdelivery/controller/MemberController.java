@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import hkdelivery.command.MemberCommand;
 import hkdelivery.service.member.MemberAutoNumService;
+import hkdelivery.service.member.MemberInfoService;
 import hkdelivery.service.member.MemberInsertService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("member")
@@ -47,6 +49,15 @@ public class MemberController {
 		}
 		
 	}
+	
+	@Autowired
+	MemberInfoService memberInfoService;
+	@GetMapping("myInfo")
+	public String myInfo(HttpSession session, Model model) {
+		memberInfoService.execute(session, model);
+		return "thymeleaf/member/memberMyInfo";
+	}
+	
 	
 	
 	

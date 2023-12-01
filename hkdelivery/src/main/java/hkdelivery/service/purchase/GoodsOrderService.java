@@ -34,7 +34,7 @@ public class GoodsOrderService {
 		//command의 상품번호를 split()해서 배열로 받아온다.
 		String [] goodsNums = purchaseCommand.getGoodsNums().split("-");
 		 
-		//각각의 정보들을 구매dto제 저장
+		//각각의 정보들을 구매dto에 저장
 		PurchaseDTO dto = new PurchaseDTO();
 		dto.setPurchaseNum(purchaseNum);
 		dto.setPurchaseName(purchaseNum);

@@ -13,21 +13,18 @@ import hkdelivery.mapper.PurchaseMapper;
 import jakarta.servlet.http.HttpSession;
 
 @Service
-public class OrderProcessListService {
+public class OrderListService {
 
 	@Autowired
-	MemberMapper memberMapper;
-	@Autowired
 	PurchaseMapper purchaseMapper;
+	@Autowired
+	MemberMapper memberMapper;
 	public void execute (HttpSession session, Model model) {
 		
 		AuthInfoDTO authInfo = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = memberMapper.getMemberNum(authInfo.getId());
 		
-		//가져와야 할 것: 주문일, 결제번호, 상품명, 주무번호, 주문상태
-		List<OrderListDTO> orderList = purchaseMapper.orderList(memberNum);
-		
-		model.addAttribute("list", orderList);
-		
+		List <OrderListDTO> list = purchaseMapper.orderList(memberNum);
+		model.addAttribute("list", list);
 	}
 }

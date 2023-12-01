@@ -16,15 +16,19 @@ where shop_id = #{memberId}
 
 
 <select id="loginSelect" parameterType="string" resultType="authInfo">
-<!-- 회원 점포를 동시에 찾기 위해 union 사용-->
-<!-- 회원과 점포를 구별하기 위해 grade 를 사용-->
+<!-- 회원과 점포와 직원을 동시에 찾기 위해 union 사용-->
+<!-- 회원과 점포와 직원을 구별하기 위해 grade 를 사용-->
 select member_id id, member_pw password, 'mem' grade, member_email email 
 from members 
 where member_id = #{id} 
 union
-select shop_id shopId, shop_pw shopPw, 'shop', 'shop' 
+select shop_id, shop_pw, 'shop', 'shop' 
 from shop 
-where shop_id = #{id}
+where shop_id = #{id} 
+union 
+select emp_id, emp_pw, 'emp', emp_email 
+from employee 
+where emp_id = #{id}
 
 
 

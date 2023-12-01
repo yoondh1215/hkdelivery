@@ -29,7 +29,7 @@ public interface PurchaseMapper {
 	public int purchaseStatusUpdate(@Param("status") String status, @Param("purchaseNum") String purchaseNum);
 	
 	
-	public List<OrderListDTO> orderList(String memberNum);
+	public List<OrderListDTO> orderList(@Param("memberNum") String memberNum);
 	
 	//구매 취소
 	public int paymentDelete(String purchaseNum);

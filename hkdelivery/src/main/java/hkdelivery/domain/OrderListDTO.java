@@ -1,19 +1,47 @@
 package hkdelivery.domain;
 
-import java.util.List;
+import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
 @Alias("orderList")
 public class OrderListDTO {
 
-	//구매정보 마다 결제정보 하나를 가져와야 함
-	PurchaseDTO purchaseDTO;
-	PaymentDTO maymentDTO;
-	
-	//구매정보마다 하나 이상의 구매/ 상품정보를 가져와야 함
-	List<PurchaseListGoodsDTO> purchaseListGoodsDTOs;
-	
+	String purhaseNum;
+	String purchaseName;
+	Date purchaseDate;
+	Integer totalprice;
+	String confirmnumber;
+	public String getPurhaseNum() {
+		return purhaseNum;
+	}
+	public void setPurhaseNum(String purhaseNum) {
+		this.purhaseNum = purhaseNum;
+	}
+	public String getPurchaseName() {
+		return purchaseName;
+	}
+	public void setPurchaseName(String purchaseName) {
+		this.purchaseName = purchaseName;
+	}
+	public Date getPurchaseDate() {
+		return purchaseDate;
+	}
+	public void setPurchaseDate(Date purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
+	public Integer getTotalprice() {
+		return totalprice;
+	}
+	public void setTotalprice(Integer totalprice) {
+		this.totalprice = totalprice;
+	}
+	public String getConfirmnumber() {
+		return confirmnumber;
+	}
+	public void setConfirmnumber(String confirmnumber) {
+		this.confirmnumber = confirmnumber;
+	}
 	
 	
 }

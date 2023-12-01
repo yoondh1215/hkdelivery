@@ -33,6 +33,17 @@ from members
 where member_id = #{id}
 </select>
 
+<select id="selectMemberInfo" parameterType="string" resultType="member">
+select member_num memberNum, member_id memberId, 
+	member_pw memberPw, member_name memberName, 
+	member_addr memberAddr, member_addr_detail memberAddrDetail, 
+	member_post memberPost, member_regi_date memberRegiDate, 
+	member_gender memberGender, member_phone memberPhone, 
+	member_email memberEmail, member_birth memberBirth 
+from members 
+where member_num = #{memberNum}
+</select>
+
 
 
 

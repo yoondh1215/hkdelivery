@@ -11,11 +11,24 @@ public class ReviewDTO {
 	String reviewContent;
 	String reviewScore;
 	Date reviewDate;
-	String reviewImage;
-	String reviewImageOrg;
 	String memberId;
 	String purchaseNum;
+	String goodsNum;
+	Integer reviewNum;
 	
+	
+	public String getGoodsNum() {
+		return goodsNum;
+	}
+	public void setGoodsNum(String goodsNum) {
+		this.goodsNum = goodsNum;
+	}
+	public Integer getReviewNum() {
+		return reviewNum;
+	}
+	public void setReviewNum(Integer reviewNum) {
+		this.reviewNum = reviewNum;
+	}
 	public String getReview_title() {
 		return review_title;
 	}
@@ -39,18 +52,6 @@ public class ReviewDTO {
 	}
 	public void setReviewDate(Date reviewDate) {
 		this.reviewDate = reviewDate;
-	}
-	public String getReviewImage() {
-		return reviewImage;
-	}
-	public void setReviewImage(String reviewImage) {
-		this.reviewImage = reviewImage;
-	}
-	public String getReviewImageOrg() {
-		return reviewImageOrg;
-	}
-	public void setReviewImageOrg(String reviewImageOrg) {
-		this.reviewImageOrg = reviewImageOrg;
 	}
 	public String getMemberId() {
 		return memberId;

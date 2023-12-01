@@ -52,7 +52,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 			<!-- 회원과 점포의 메뉴를 th:block과 th:if 조건으로 나눈다. 세션 auth의 grade를 이용한다. -->
 			<th:block th:if="${session.auth.grade == 'mem'}">
 			<ul>
-				<li><a href="member/memberUpdate">내 정보 수정 (미구현)</a></li>
+				<li><a href="member/myInfo">내 정보 보기 및 수정</a></li>
 				<li><a href="cart/cartList">장바구니</a></li>
 				<li><a href="goods/wishList">위시리스트</a></li>
 				<li><a href="/purchase/orderList">주문 목록</a></li>
@@ -65,6 +65,16 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 				<li><a href="contract/contractRead">가맹계약서 확인 (미구현)</a></li>
 				<li><a href="goods/goodsRegist">상품 등록</a></li>
 				<li><a href="goods/goodsList">판매중인 상품 확인 및 수정</a></li>
+			</ul>
+			</th:block>
+			
+			<th:block th:if="${session.auth.grade == 'emp'}">
+			<ul>
+				<li><a href="contract/contractCreate">가맹계약서 작성 (미구현)</a></li>
+				<li><a href="contract/contractRead">가맹계약서 확인 (미구현)</a></li>
+				<li><a href="">고객 주문 내역 확인</a></li>
+				<li><a href="employee/empRead">내 정보 수정</a></li>
+				<li><a href=""></a></li>
 			</ul>
 			</th:block>
 		<!-- 링크를 login/logout으로 준 이유는 login 컨트롤러 재활용을 위해서... -->
@@ -143,7 +153,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
       <p>본사 사업자 등록번호: XXX-XX-XXXXX</p>
       <p>사업문의: 010-xxxx-xxxx.</p>
       <p>주소 : 서울시 여의도 어딘가.</p>
-      <p>대표 : <a href="employee/empRegist">모든 사원이 바로 우리 회사의 대표입니다.</a></p>
+      <p>대표 : 모든 사원이 바로 우리 회사의 <a href="employee/empRegist">대표</a>입니다.</p>
       <p>대표: 흥국쨩</p>
     </div>
   </div>

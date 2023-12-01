@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/static/js/daumAddressScript.js"></script>
+
+</head>
+<body>
+
+
+<form action="empUpdate" method="post" >
+<table>
+<tr><td>아이디 :	</td> <td><input type="text" name="empId" th:value="${dto.empId}"/> </td></tr>
+<tr><td>비밀번호 : </td> <td><input type="password" name="empPw"/>  </td></tr>
+<tr><td>이름 : </td> <td><input type="text" name="empName" th:value="${dto.empName}"/> </td></tr>
+<tr><td>주소 : </td> <td><input type="text" name="empAddr" id="sample4_roadAddress" th:value="${dto.empAddr}"/> </td></tr>
+<tr><td>상세주소 : </td> <td><input type="text" name="empAddrDetail" th:value="${dto.empAddrDetail}"/> </td></tr>
+<tr><td>우편번호 : </td> <td><input type="text" name="empPost" id="sample4_postcode" th:value="${dto.empPost}"/> </td></tr>
+<tr><td>전화번호 : </td> <td><input type="text" name="empPhone" th:value="${dto.empPhone}"/> </td></tr>
+<tr><td>이메일 : </td> <td><input type="email" name="empEmail" th:value="${dto.empEmail}"/> </td></tr>
+<tr><td>직원등록일 : </td> <td><input type="date" name="empRegiDate" th:value="${#dates.format(dto.empRegiDate,'yyyy-MM-dd')}" readonly="readonly"/> (수정불가) </td></tr>
+
+<tr><td><input type="submit" value="수정완료"/></td></tr>
+
+</table>
+
+</body>
+</html>
