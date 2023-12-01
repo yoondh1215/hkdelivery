@@ -26,5 +26,7 @@ public class OrderListService {
 		
 		List <OrderListDTO> list = purchaseMapper.orderList(memberNum);
 		model.addAttribute("list", list);
+		
+		
 	}
 }
