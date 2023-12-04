@@ -28,8 +28,8 @@ public interface PurchaseMapper {
 	public int paymentInsert(PaymentDTO dto);
 	public int purchaseStatusUpdate(@Param("status") String status, @Param("purchaseNum") String purchaseNum);
 	
-	
-	public List<OrderListDTO> orderList(@Param("memberNum") String memberNum);
+	//회원 또는 점포가 주문목록을 조회
+	public List<OrderListDTO> orderList(@Param("memberNum") String memberNum, @Param("shopNum") String shopNum, @Param("purchaseNum") String purchaseNum );
 	
 	//구매 취소
 	public int paymentDelete(String purchaseNum);

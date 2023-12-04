@@ -14,8 +14,19 @@ public class OrderListDTO {
 	//구매 하나당 여러 구메-상품정보 -> list
 	List<PurchaseListGoodsDTO> purchaseListGoodsDTOs;	//n
 
+	//배송정보 추가. mapper에도 추가해줌.
+	DeliveryDTO deliveryDTO;
 	
 	
+	
+	public DeliveryDTO getDeliveryDTO() {
+		return deliveryDTO;
+	}
+
+	public void setDeliveryDTO(DeliveryDTO deliveryDTO) {
+		this.deliveryDTO = deliveryDTO;
+	}
+
 	public PurchaseDTO getPurchaseDTO() {
 		return purchaseDTO;
 	}

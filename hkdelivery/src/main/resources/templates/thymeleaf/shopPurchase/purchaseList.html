@@ -3,15 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script type="text/javascript">
+function detail(purchaseNum){
+	window.open("purchaseDetail?purchaseNum="+purchaseNum,"purchaseDetail","top='100',left='100',width=600,height=800");
+}
+</script>
+
 </head>
 <body>
 
-구매목록<br/>
 
+
+<!-- 관리자만 가능하게 -->
 <table width="800" align="center">
 	<tr><td>주문일(결제번호)</td>
-		<td>주문명(이미지) / 승인번호</td>
-		
+		<td>주문명(이미지) / 주문번호</td>
+		<td>주문상태</td>
 	</tr>
 	
 	<tr th:each="orderListDTO : ${list}">
@@ -35,11 +43,14 @@
 			</th:block>
 			/ [[${orderListDTO.purchaseDTO.purchaseNum}]]</td>
 			<td>
-				<th:block th:if="${orderListDTO.paymentDTO.appltime != null}">
-					<a th:href="|paymentDel?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">결제취소</a>
+				<a th:href="|javascript:detail('${orderListDTO.purchaseDTO.purchaseNum}')|">주문 상세보기</a>
+				<th:block th:if="${orderListDTO.purchaseDTO.purchaseStatus == '입금대기중'}">
+					결제대기중
 				</th:block>
-				<th:block th:if="${orderListDTO.paymentDTO.appltime == null}">
-					<a th:href="|paymentOk?purchaseNum=${orderListDTO.purchaseDTO.purchaseNum}|">결제하기</a>
+				<th:block th:if="${orderListDTO.purchaseDTO.purchaseStatus != '입금대기중'}">
+					<!-- 결제가 완료된 주문은 배송정보를 입력해야 함 -->
+					<a th:href="@{purchaseStatus(purchaseNum=${orderListDTO.purchaseDTO.purchaseNum})}">[[${orderListDTO.purchaseDTO.purchaseStatus}]]</a>
+					
 				</th:block>
 			</td>	
 	</tr>
@@ -48,6 +59,7 @@
 			
 
 </table>
+
 
 </body>
 </html>

@@ -25,7 +25,7 @@ public class OrderProcessListService {
 		String memberNum = memberMapper.getMemberNum(authInfo.getId());
 		
 		//가져와야 할 것: 주문일, 결제번호, 상품명, 주무번호, 주문상태
-		List<OrderListDTO> orderList = purchaseMapper.orderList(memberNum);
+		List<OrderListDTO> orderList = purchaseMapper.orderList(memberNum, null, null);
 		
 		model.addAttribute("list", orderList);
 		

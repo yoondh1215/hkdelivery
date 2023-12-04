@@ -24,7 +24,7 @@ public class OrderListService {
 		AuthInfoDTO authInfo = (AuthInfoDTO)session.getAttribute("auth");
 		String memberNum = memberMapper.getMemberNum(authInfo.getId());
 		
-		List <OrderListDTO> list = purchaseMapper.orderList(memberNum);
+		List <OrderListDTO> list = purchaseMapper.orderList(memberNum, null, null);
 		model.addAttribute("list", list);
 		
 		

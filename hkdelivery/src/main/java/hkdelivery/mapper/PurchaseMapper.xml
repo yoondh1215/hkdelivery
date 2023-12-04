@@ -94,10 +94,10 @@ insert into payment	(purchase_num, confirm_number,
 	card_num, tid, result_message, total_price, 
 	pay_method, appl_date, appl_time, 
 	purchase_name) 
-values (#{purcahseNum},#{confirmnumber},
-	#{cardnum}, #{tid}, #{resultmessage}, #{totalPrice},
-	#{paymethod},#{appldate},#{appltime}
-	#{purchaseName})
+values (#{purchaseNum},#{confirmnumber},
+	#{cardnum}, #{tid}, #{resultmessage}, ${totalprice},
+	#{paymethod},#{appldate},#{appltime},
+	#{purchasename})
 </insert>
 
 
@@ -124,6 +124,14 @@ where purchase_num = #{purchaseNum}
 		<result column="pay_method" jdbcType="VARCHAR" property="paymethod"/>
 		<result column="appldate" jdbcType="VARCHAR" property="appldate"/>	
 	</association>
+	<!-- 마지막에 추가된 배송정보 파트임-->
+	<association property="deliveryDTO" javaType="delivery">
+		<id column="purchase_num" jdbcType="VARCHAR" property="purchaseNum"/>
+		<result column="delivery_company" jdbcType="VARCHAR" property="deliveryCompany"/>
+		<result column="delivery_num" jdbcType="VARCHAR" property="deliveryNum"/>
+		<result column="delivery_date" jdbcType="DATE" property="deliveryDate"/>
+		<result column="delivery_status" jdbcType="VARCHAR" property="deliveryStatus"/>
+	</association>
 	<!-- list로 받을 땐 collection 사용-->
 	<collection property="purchaseListGoodsDTOs" ofType="purchaseListGoods">
 		<association property="purchaseList" javaType="purchaseList">
@@ -146,7 +154,7 @@ where purchase_num = #{purchaseNum}
 </resultMap>
 
 
-
+<!-- 직원이 오더리스트 조회시 memberNum이 null로 전달되므로 where 태그 사용-->
 <select id="orderList" parameterType="string" resultMap="orderListResultMap">
 select 
 	p.purchase_num, member_num, p.purchase_name, 
@@ -155,18 +163,33 @@ select
 	purchase_status, purchase_price, delivery_name,  
 	
 	confirm_number, card_num, tid, 
-	result_message, pm.total_price, pay_method, 
+	result_message, pay_method, 
 	appl_date, appl_time,  
 	
-	pl.purchase_qty, 
+	pl.purchase_qty, pl.total_price, 
 	
-	g.goods_num, goods_name, goods_content, 
-	goods_main, goods_main_org, goods_price 
+	g.goods_num, g.shop_num, goods_name, goods_content, 
+	g.goods_main, goods_main_org, goods_price, g.delivery_cost, 
+	
+	
+	delivery_company, delivery_num, delivery_date, 
+	delivery_status 
 from 
 	purchase p left outer join payment pm on p.purchase_num = pm.purchase_num 
 	join purchase_list pl on p.purchase_num = pl.purchase_num 
 	join goods g on pl.goods_num = g.goods_num 
-where member_num = #{memberNum}
+	left outer join delivery d on p.purchase_num = d.purchase_num 
+<where>
+	<if test="memberNum != null">
+		member_num = #{memberNum} 
+	</if>
+	<if test="shopNum != null">
+		g.shop_num = #{shopNum} 
+	</if>
+	<if test="purchaseNum != null">
+		and p.purchase_num = #{purchaseNum} 
+	</if>
+</where>	
 </select>
 
 
@@ -174,6 +197,11 @@ where member_num = #{memberNum}
 delete from payment 
 where purchase_num = #{purchaseNum}
 </delete>
+
+
+
+
+
 
 
 

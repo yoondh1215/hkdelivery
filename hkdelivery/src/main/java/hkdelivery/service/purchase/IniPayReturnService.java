@@ -3,7 +3,10 @@ package hkdelivery.service.purchase;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
+
+import javax.print.PrintException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import com.inicis.std.util.ParseUtil;
 import com.inicis.std.util.SignatureUtil;
 
 import hkdelivery.domain.AuthInfoDTO;
+import hkdelivery.domain.OrderListDTO;
 import hkdelivery.domain.PaymentDTO;
 import hkdelivery.domain.PurchaseDTO;
 import hkdelivery.mapper.MemberMapper;
@@ -133,6 +137,7 @@ public class IniPayReturnService {
 					dto.setResultmessage(resultMap.get("resultMsg"));
 					dto.setTid(resultMap.get("tid"));
 					dto.setTotalprice(resultMap.get("TotPrice"));
+					
 					int i = purchaseMapper.paymentInsert(dto);
 					
 					//구매상태를 결제완료 로 업데이트
@@ -143,15 +148,15 @@ public class IniPayReturnService {
 					PurchaseDTO pDto = purchaseMapper.purchaseSelect(resultMap.get("MOID"));
 					
 					AuthInfoDTO authInfo = (AuthInfoDTO)session.getAttribute("auth");
-					//String memberNum = memberMapper.getMemberNum(authInfo.getId()); 
-					session.setAttribute("auth", authInfo);
-					model.addAttribute("userId", authInfo.getId());
+					String userId = authInfo.getId();
+					
+					model.addAttribute("userId", userId);
 					model.addAttribute("price", dto.getTotalprice());
 					
 					
 					
 				} catch (Exception ex) {
-
+					ex.printStackTrace();
 					//####################################
 					// 실패시 처리(***가맹점 개발수정***)
 					//####################################
@@ -177,7 +182,7 @@ public class IniPayReturnService {
 			}
 
 		}catch(Exception e){
-
+				e.printStackTrace();
 			System.out.println(e);
 		}
 	}

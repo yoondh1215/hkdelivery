@@ -13,21 +13,21 @@ import hkdelivery.mapper.ShopMapper;
 import jakarta.servlet.http.HttpSession;
 
 @Service
-public class PurchaseListService {
+public class PurchaseDetailService {
 
 	@Autowired
 	PurchaseMapper purchaseMapper;
 	@Autowired
 	ShopMapper shopMapper;
-	public void execute (HttpSession session, Model model) {
+	public void execute (String purchaseNum, HttpSession session, Model model) {
+		
 		AuthInfoDTO authInfo = (AuthInfoDTO)session.getAttribute("auth");
 		String shopNum = shopMapper.getShopNum(authInfo.getId());
 		
-		List<OrderListDTO> list = purchaseMapper.orderList(null, shopNum, null);
+		List<OrderListDTO> list = purchaseMapper.orderList(null, shopNum, purchaseNum);
 		
-		model.addAttribute("list",list);
-		
-		model.addAttribute("auth",authInfo);	//grade == shop 이면 배송정보 입력 가능하게 하려고.
+		//list 중 한 개만 가져오므로 list.get(0) 로 적용.
+		model.addAttribute("dto",list.get(0));
 		
 	}
 }
