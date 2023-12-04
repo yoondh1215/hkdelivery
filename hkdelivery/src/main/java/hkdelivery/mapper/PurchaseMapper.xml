@@ -108,19 +108,72 @@ where purchase_num = #{purchaseNum}
 </update>
 
 
+
+<!-- 객체 내에 객체를 받을 땐 association, 객체 내에서 list를 받을 땐 collection.	-->
+<resultMap id="orderListResultMap" type="orderList">
+	<!-- purchase의 resultMap이 이미 위에 만들어져 있으므로 재활용.-->
+	<association property="purchaseDTO" javaType="purchase" resultMap="purchaseResultMap"/>
+	<association property="paymentDTO" javaType="payment">
+		<!-- setter 사용-->
+		<id column="purchase_num" jdbcType="VARCHAR" property="purchaseNum"/>
+		<result column="confirm_number" jdbcType="VARCHAR" property="confirmnumber"/>
+		<result column="card_num" jdbcType="VARCHAR" property="cardnum"/>
+		<result column="tid" jdbcType="VARCHAR" property="tid"/>
+		<result column="result_message" jdbcType="VARCHAR" property="resultmessage"/>
+		<result column="total_price" jdbcType="VARCHAR" property="totalprice"/>
+		<result column="pay_method" jdbcType="VARCHAR" property="paymethod"/>
+		<result column="appldate" jdbcType="VARCHAR" property="appldate"/>	
+	</association>
+	<!-- list로 받을 땐 collection 사용-->
+	<collection property="purchaseListGoodsDTOs" ofType="purchaseListGoods">
+		<association property="purchaseList" javaType="purchaseList">
+			<result column="purchase_qty" jdbcType="BIGINT" property="purchaseQty"/>
+			<result column="total_price" jdbcType="BIGINT" property="totalPrice"/>
+		</association>
+		<association property="goods" javaType="goods">
+			<id column="goods_num" jdbcType="VARCHAR" property="goodsNum"/>
+			<result column="shop_num" jdbcType="VARCHAR" property="shopNum"/>
+			<result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+			<result column="goods_content" jdbcType="VARCHAR" property="goodsContent"/>
+			<result column="goods_main" jdbcType="VARCHAR" property="goodsMain"/>
+			<result column="goods_main_org" jdbcType="VARCHAR" property="goodsMainOrg"/>
+			<result column="goods_image" jdbcType="VARCHAR" property="goodsImage"/>
+			<result column="goods_image_org" jdbcType="VARCHAR" property="goodsImageOrg"/>
+			<result column="goods_price" jdbcType="BIGINT" property="goodsPrice"/>
+			<result column="delivery_cost" jdbcType="BIGINT" property="deliveryCost"/>
+		</association>
+	</collection>
+</resultMap>
+
+
+
+<select id="orderList" parameterType="string" resultMap="orderListResultMap">
+select 
+	p.purchase_num, member_num, p.purchase_name, 
+	purchase_date, purchase_phone, purchase_addr, 
+	purchase_addr_detail, purchase_post, purchase_message, 
+	purchase_status, purchase_price, delivery_name,  
+	
+	confirm_number, card_num, tid, 
+	result_message, pm.total_price, pay_method, 
+	appl_date, appl_time,  
+	
+	pl.purchase_qty, 
+	
+	g.goods_num, goods_name, goods_content, 
+	goods_main, goods_main_org, goods_price 
+from 
+	purchase p left outer join payment pm on p.purchase_num = pm.purchase_num 
+	join purchase_list pl on p.purchase_num = pl.purchase_num 
+	join goods g on pl.goods_num = g.goods_num 
+where member_num = #{memberNum}
+</select>
+
+
 <delete id="paymentDelete" parameterType="string">
 delete from payment 
 where purchase_num = #{purchaseNum}
 </delete>
-
-<!-- 필요한 것: 결제번호, 결제이름, 총 가격, 결제일, 총 수량, 승인번호-->
-<select id="orderList" parameterType="string" resultType="string">
-select pur.purchase_num purchaseNum, pur.purchase_name purchaseName, 
-	purchase_date purchaseDate, total_price totalprice, confirm_number confirmnumber
-from purchase pur , payment pay 
-where pur.purchase_num = pay.purchase_num 
-order by purchase_date desc
-</select>
 
 
 

@@ -1,47 +1,45 @@
 package hkdelivery.domain;
 
-import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
 @Alias("orderList")
 public class OrderListDTO {
 
-	String purhaseNum;
-	String purchaseName;
-	Date purchaseDate;
-	Integer totalprice;
-	String confirmnumber;
-	public String getPurhaseNum() {
-		return purhaseNum;
+	//구매 하나당 결제 하나
+	PurchaseDTO purchaseDTO;	//1
+	PaymentDTO paymentDTO;		//1
+	
+	//구매 하나당 여러 구메-상품정보 -> list
+	List<PurchaseListGoodsDTO> purchaseListGoodsDTOs;	//n
+
+	
+	
+	public PurchaseDTO getPurchaseDTO() {
+		return purchaseDTO;
 	}
-	public void setPurhaseNum(String purhaseNum) {
-		this.purhaseNum = purhaseNum;
+
+	public void setPurchaseDTO(PurchaseDTO purchaseDTO) {
+		this.purchaseDTO = purchaseDTO;
 	}
-	public String getPurchaseName() {
-		return purchaseName;
+
+	public PaymentDTO getPaymentDTO() {
+		return paymentDTO;
 	}
-	public void setPurchaseName(String purchaseName) {
-		this.purchaseName = purchaseName;
+
+	public void setPaymentDTO(PaymentDTO paymentDTO) {
+		this.paymentDTO = paymentDTO;
 	}
-	public Date getPurchaseDate() {
-		return purchaseDate;
+
+	public List<PurchaseListGoodsDTO> getPurchaseListGoodsDTOs() {
+		return purchaseListGoodsDTOs;
 	}
-	public void setPurchaseDate(Date purchaseDate) {
-		this.purchaseDate = purchaseDate;
+
+	public void setPurchaseListGoodsDTOs(List<PurchaseListGoodsDTO> purchaseListGoodsDTOs) {
+		this.purchaseListGoodsDTOs = purchaseListGoodsDTOs;
 	}
-	public Integer getTotalprice() {
-		return totalprice;
-	}
-	public void setTotalprice(Integer totalprice) {
-		this.totalprice = totalprice;
-	}
-	public String getConfirmnumber() {
-		return confirmnumber;
-	}
-	public void setConfirmnumber(String confirmnumber) {
-		this.confirmnumber = confirmnumber;
-	}
+	
 	
 	
 }

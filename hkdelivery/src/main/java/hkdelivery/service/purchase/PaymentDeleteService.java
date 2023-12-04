@@ -11,6 +11,7 @@ public class PaymentDeleteService {
 	@Autowired
 	PurchaseMapper purchaseMapper;
 	public void execute (String purchaseNum) {
+		
 		int i = purchaseMapper.paymentDelete(purchaseNum);
 		
 		if (i >= 1) {
