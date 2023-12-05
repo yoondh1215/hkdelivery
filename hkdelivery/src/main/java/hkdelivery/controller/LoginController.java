@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import hkdelivery.command.LoginCommand;
 import hkdelivery.service.login.IdCheckService;
 import hkdelivery.service.login.LoginService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
@@ -40,8 +41,8 @@ public class LoginController {
 	@Autowired
 	LoginService loginService;
 	@PostMapping("login")
-	public String login(LoginCommand loginCommand, HttpSession session, BindingResult result) {
-		loginService.execute(loginCommand, session, result);
+	public String login(LoginCommand loginCommand, HttpSession session, BindingResult result, HttpServletResponse response) {
+		loginService.execute(loginCommand, session, result, response);
 		//오류가 있으면 index.html 페이지에 리젝트 메시지가 보내지도록 구현
 		if (result.hasErrors()) {
 			return "thymeleaf/index";
@@ -51,7 +52,11 @@ public class LoginController {
 	
 	
 	@GetMapping("logout")
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletResponse response) {
+		Cookie cookie = new Cookie("authLogin", "");
+		cookie.setPath("/");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
 		session.invalidate(); //로그아웃시 세션 삭제
 		return "redirect:/";
 	}
@@ -65,7 +70,7 @@ public class LoginController {
 	
 	@PostMapping("item.login")
 	public String item(@Validated LoginCommand loginCommand, BindingResult result, HttpSession session, HttpServletResponse response) {
-		loginService.execute(loginCommand, session, result);
+		loginService.execute(loginCommand, session, result, response);
 		
 		if (result.hasErrors()) {
 			//입력하지 않은 값이 있으면 다시 페이지를 로드

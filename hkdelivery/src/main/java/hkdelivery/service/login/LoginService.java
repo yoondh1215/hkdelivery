@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import hkdelivery.command.LoginCommand;
 import hkdelivery.domain.AuthInfoDTO;
 import hkdelivery.mapper.LoginMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Service
@@ -18,7 +19,7 @@ public class LoginService {
 	@Autowired
 	PasswordEncoder passwordEncoder; //회원가입시 비밀번호를 암호화 했으므로 암호로 비교해야 함
 	
-	public void execute (LoginCommand loginCommand, HttpSession session, BindingResult result) {
+	public void execute (LoginCommand loginCommand, HttpSession session, BindingResult result, HttpServletResponse response) {
 		
 		String id = loginCommand.getId();
 		String password = loginCommand.getPassword();
@@ -34,6 +35,9 @@ public class LoginService {
 				System.out.println("비밀번호가 일치합니다.");
 				//id와 비밀번호가 일치하면 session에 로그인 정보를 저장
 				session.setAttribute("auth", authInfo);
+				
+			
+				
 			} else {
 				System.out.println("비밀번호가 일치하지 않습니다.");
 				result.rejectValue("password", "loginCommand.password", "비밀번호가 일치하지 않습니다.");
