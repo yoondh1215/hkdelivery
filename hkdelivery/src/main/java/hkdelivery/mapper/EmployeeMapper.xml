@@ -8,7 +8,6 @@
 
 <select id="empAutoNum" resultType="string">
 select concat('mem' , coalesce(max(substr(emp_num,4)::integer),10000)+1) from employee
-
 </select>
 
 <insert id="empRegist" parameterType="emp">

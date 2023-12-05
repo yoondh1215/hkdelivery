@@ -19,7 +19,7 @@ public class DeliveryController {
 	@PostMapping("deliveryAction")
 	public String deliveryAction (DeliveryCommand deliveryCommand) {
 		deliveryInsertService.execute(deliveryCommand);
-		return "redirect:/purchase/purchaseDetail?purchaseNum="+deliveryCommand.getPurchaseNum();
+		return "redirect:/shopPurchase/purchaseDetail?purchaseNum="+deliveryCommand.getPurchaseNum();
 	}
 	
 	@Autowired
@@ -27,7 +27,7 @@ public class DeliveryController {
 	@PostMapping("deliveryDel")
 	public String deliveryDel(@RequestParam("purchaseNum") String purchaseNum) {
 		deliveryDeleteService.execute(purchaseNum);
-		return "redirect:/purchase/purchaseDetail?purchaseNum="+purchaseNum;
+		return "redirect:/shopPurchase/purchaseDetail?purchaseNum="+purchaseNum;
 	}
 	
 }

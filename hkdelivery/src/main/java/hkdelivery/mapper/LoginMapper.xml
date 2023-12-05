@@ -29,12 +29,7 @@ union
 select emp_id, emp_pw, 'emp', emp_email 
 from employee 
 where emp_id = #{id}
-
-
-
 </select>
-
-
 
 </mapper>
 
