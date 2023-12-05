@@ -122,7 +122,8 @@ where purchase_num = #{purchaseNum}
 		<result column="result_message" jdbcType="VARCHAR" property="resultmessage"/>
 		<result column="total_price" jdbcType="VARCHAR" property="totalprice"/>
 		<result column="pay_method" jdbcType="VARCHAR" property="paymethod"/>
-		<result column="appldate" jdbcType="VARCHAR" property="appldate"/>	
+		<result column="appl_date" jdbcType="VARCHAR" property="appldate"/>	
+		<result column="appl_time" jdbcType="VARCHAR" property="appltime"/>	
 	</association>
 	<!-- 마지막에 추가된 배송정보 파트임-->
 	<association property="deliveryDTO" javaType="delivery">

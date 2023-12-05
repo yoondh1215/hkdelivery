@@ -19,7 +19,7 @@ public class DeliveryController {
 	@PostMapping("deliveryAction")
 	public String deliveryAction (DeliveryCommand deliveryCommand) {
 		deliveryInsertService.execute(deliveryCommand);
-		return "redirect:/purchase/purchaseDetail?purcahseNum="+deliveryCommand.getPurchaseNum();
+		return "redirect:/purchase/purchaseDetail?purchaseNum="+deliveryCommand.getPurchaseNum();
 	}
 	
 	@Autowired
